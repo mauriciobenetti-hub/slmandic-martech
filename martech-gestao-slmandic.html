@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modelo de Gestão — Martech</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #022054;          /* Azul escuro Mandic — fundo premium */
+    --surface: #0a2a5e;     /* Azul institucional aprofundado p/ cards */
+    --surface2: #143a73;    /* Azul de apoio mais claro */
+    --border: #2B5597;      /* Azul de apoio — bordas */
+    --accent1: #1968DC;     /* Azul claro Mandic — hierarquia / links */
+    --accent2: #4a8bf0;     /* Azul claro luminoso — variação */
+    --accent3: #8fb6f5;     /* Azul suave — apoio neutro */
+    --accent4: #F8CA10;     /* Amarelo Mandic — destaque pontual ≤5% */
+    --text: #FFFFFF;        /* Branco — texto sobre azul */
+    --muted: #a9c0e6;       /* Azul claro acinzentado — texto secundário */
+    --serif: 'DM Serif Display', serif;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Instrument Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  header {
+    margin-bottom: 64px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent1);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(38px, 5vw, 58px);
+    line-height: 1.05;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent1);
+  }
+
+  .subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+
+  /* SECTION TITLES */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* NUCLEOS */
+  .nucleos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+
+  .nucleo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .nucleo-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .nucleo-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .nucleo-card.n1::before { background: var(--accent2); }
+  .nucleo-card.n2::before { background: var(--accent3); }
+  .nucleo-card.n3::before { background: var(--accent4); }
+
+  .nucleo-card:hover.n1 { border-color: var(--accent2); }
+  .nucleo-card:hover.n2 { border-color: var(--accent1); }
+  .nucleo-card:hover.n3 { border-color: var(--accent4); }
+
+  .nucleo-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  .nucleo-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+
+  .nucleo-card.n1 .nucleo-title { color: var(--accent2); }
+  .nucleo-card.n2 .nucleo-title { color: var(--accent3); }
+  .nucleo-card.n3 .nucleo-title { color: var(--accent4); }
+
+  .nucleo-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .nucleo-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+  }
+
+  .n1 .tag { background: rgba(25,104,220,0.18); color: var(--accent2); border: 1px solid rgba(25,104,220,0.32); }
+  .n2 .tag { background: rgba(74,139,240,0.14); color: var(--accent3); border: 1px solid rgba(74,139,240,0.28); }
+  .n3 .tag { background: rgba(248,202,16,0.12); color: var(--accent4); border: 1px solid rgba(248,202,16,0.28); }
+
+  /* RITUAIS */
+  .rituais-section { margin-bottom: 56px; }
+
+  .rituals-matrix {
+    display: grid;
+    grid-template-columns: 120px 1fr 1fr 1fr 1fr;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .matrix-header {
+    display: contents;
+  }
+
+  .matrix-cell {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .matrix-cell:last-child, .matrix-cell:nth-child(5n) { border-right: none; }
+
+  .matrix-cell.head {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--surface2);
+    padding: 12px 16px;
+  }
+
+  .matrix-cell.freq-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+  }
+
+  .ritual-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ritual-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .ritual-detail {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .ritual-owner {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-top: 2px;
+  }
+
+  .owner-all { background: rgba(255,255,255,0.1); color: var(--text); }
+  .owner-ops { background: rgba(25,104,220,0.18); color: var(--accent2); }
+  .owner-bi { background: rgba(74,139,240,0.14); color: var(--accent3); }
+  .owner-crm { background: rgba(248,202,16,0.12); color: var(--accent4); }
+
+  .empty-cell { color: var(--border); font-size: 18px; text-align: center; display: flex; align-items: center; justify-content: center; }
+
+  /* INDICADORES */
+  .indicadores-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+
+  .ind-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+  }
+
+  .ind-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .ind-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ind-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .ind-list li::before {
+    content: '→';
+    font-family: var(--mono);
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .n1 .ind-list li::before { color: var(--accent2); }
+  .n2 .ind-list li::before { color: var(--accent3); }
+  .n3 .ind-list li::before { color: var(--accent4); }
+
+  /* FLUXO DE GESTÃO */
+  .fluxo-section { margin-bottom: 56px; }
+
+  .fluxo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .fluxo-item {
+    background: var(--surface);
+    padding: 24px 20px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+
+  .fluxo-item:last-child { border-right: none; }
+
+  .fluxo-step {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--accent1);
+    margin-bottom: 8px;
+  }
+
+  .fluxo-name {
+    font-family: var(--serif);
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .fluxo-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .arrow-connector {
+    position: absolute;
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--accent1);
+    z-index: 2;
+  }
+
+  .fluxo-item:last-child .arrow-connector { display: none; }
+
+  /* MODELO DE DECISÃO */
+  .decisao-section { margin-bottom: 56px; }
+
+  .decisao-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .decisao-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .decisao-title {
+    font-family: var(--serif);
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+
+  .decisao-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .decisao-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .decisao-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .decisao-badge {
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    letter-spacing: 0.06em;
+    margin-top: 1px;
+  }
+
+  .badge-coord { background: rgba(25,104,220,0.2); color: var(--accent2); }
+  .badge-head { background: rgba(74,139,240,0.16); color: var(--accent3); }
+  .badge-dir { background: rgba(248,202,16,0.14); color: var(--accent4); }
+
+  .decisao-text { color: var(--text); line-height: 1.4; }
+
+  /* PRINCÍPIOS */
+  .principios-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+
+  .principio-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+  }
+
+  .principio-num {
+    font-family: var(--serif);
+    font-size: 48px;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .principio-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent1);
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+  }
+
+  .principio-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: gap;
+    gap: 12px;
+  }
+
+  footer span {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  .version-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--muted);
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px;
+    width: fit-content;
+  }
+
+  .tab-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .tab-btn.active {
+    background: var(--surface2);
+    color: #FFFFFF;
+    border: 1px solid rgba(25,104,220,0.45);
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* AGENDA VISUAL */
+  .agenda-week {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .agenda-day {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .agenda-day-header {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .agenda-day-events {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 80px;
+  }
+
+  .agenda-event {
+    font-size: 11px;
+    padding: 6px 9px;
+    border-radius: 6px;
+    line-height: 1.4;
+  }
+
+  .agenda-event .ev-time {
+    font-family: var(--mono);
+    font-size: 9px;
+    opacity: 0.7;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .ev-all { background: rgba(255,255,255,0.09); color: var(--text); border-left: 2px solid var(--accent2); }
+  .ev-ops { background: rgba(25,104,220,0.16); color: #d7e5fb; border-left: 2px solid var(--accent2); }
+  .ev-bi { background: rgba(74,139,240,0.14); color: #d7e5fb; border-left: 2px solid var(--accent3); }
+  .ev-crm { background: rgba(248,202,16,0.12); color: var(--accent4); border-left: 2px solid var(--accent4); }
+
+  /* METAS 2026 */
+  .metas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .meta-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .meta-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .meta-crm::before { background: var(--accent4); }
+  .meta-martech::before { background: var(--accent2); }
+  .meta-rol::before { background: var(--accent3); }
+  .meta-despesa::before { background: var(--accent2); }
+
+  .meta-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .meta-peso {
+    font-family: var(--serif);
+    font-size: 38px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .meta-crm .meta-peso { color: var(--accent4); }
+  .meta-martech .meta-peso { color: var(--accent2); }
+  .meta-rol .meta-peso { color: var(--accent3); }
+  .meta-despesa .meta-peso { color: var(--accent2); }
+
+  .meta-nome {
+    font-family: var(--serif);
+    font-size: 20px;
+    line-height: 1.1;
+  }
+
+  .meta-dono {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .meta-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .kpi-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .kpi-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .kpi-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    letter-spacing: 0.04em;
+    margin-top: 1px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .kpi-text { color: var(--text); }
+
+  /* PAINEL DE ATINGIMENTO */
+  .atg-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+  .atg-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .atg-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .atg-crm::before { background: var(--accent4); }
+  .atg-blue::before { background: var(--accent2); }
+  .atg-soft::before { background: var(--accent3); }
+  .atg-peso {
+    font-family: var(--serif);
+    font-size: 34px;
+    line-height: 1;
+    color: var(--accent2);
+  }
+  .atg-crm .atg-peso { color: var(--accent4); }
+  .atg-soft .atg-peso { color: var(--accent3); }
+  .atg-nome {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 8px;
+  }
+  .atg-dono {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .atg-next {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    line-height: 1.4;
+  }
+
+  /* ORGANOGRAMA */
+  .org-wrap { display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+  .org-node {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 18px;
+    text-align: center;
+    min-width: 180px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .org-node.head { border-color: var(--accent2); min-width: 220px; }
+  .org-node.coord { border-color: var(--accent2); }
+  .org-node.tbh { border-style: dashed; border-color: var(--accent4); background: rgba(248,202,16,0.06); }
+
+  .org-role {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 4px;
+  }
+  .org-node.tbh .org-role { color: var(--accent4); }
+
+  .org-name { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.2; }
+  .org-title { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.3; }
+  .org-hc { font-family: var(--mono); font-size: 9px; color: var(--muted); margin-top: 5px; letter-spacing: 0.06em; }
+
+  .org-connector { width: 1px; height: 28px; background: var(--border); }
+
+  .org-branch {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .org-col { display: flex; flex-direction: column; align-items: center; }
+
+  .org-col-head {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .org-members { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+
+  .org-member {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    text-align: center;
+  }
+  .org-member.tbh { border-style: dashed; border-color: var(--accent4); background: rgba(248,202,16,0.06); }
+  .org-member .m-name { font-size: 12px; font-weight: 600; color: var(--text); }
+  .org-member .m-title { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  .org-group-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--accent4);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    display: inline-block;
+    font-weight: 500;
+  }
+  .org-group-label.blue { background: var(--accent2); color: #FFFFFF; }
+
+  .org-legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .org-legend span { display: flex; align-items: center; gap: 7px; }
+  .org-legend .dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+  .org-legend .dot.solid { background: var(--surface); border: 1px solid var(--accent2); }
+  .org-legend .dot.dashed { border: 1px dashed var(--accent4); background: rgba(248,202,16,0.06); }
+
+  @media (max-width: 768px) {
+    .nucleos-grid, .indicadores-grid, .principios-grid { grid-template-columns: 1fr; }
+    .metas-grid { grid-template-columns: 1fr; }
+    .atg-grid { grid-template-columns: 1fr 1fr; }
+    .org-branch { grid-template-columns: 1fr; gap: 28px; }
+    .fluxo-grid { grid-template-columns: 1fr 1fr; }
+    .decisao-grid { grid-template-columns: 1fr; }
+    .agenda-week { grid-template-columns: 1fr 1fr; }
+    .rituals-matrix { grid-template-columns: 90px 1fr 1fr; }
+    .rituals-matrix .matrix-cell:nth-child(4),
+    .rituals-matrix .matrix-cell:nth-child(5),
+    .rituals-matrix .matrix-cell:nth-child(9),
+    .rituals-matrix .matrix-cell:nth-child(10) { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">Diretoria de Marketing · Martech · São Leopoldo Mandic</div>
+    <h1>Modelo de <em>Gestão</em><br>& Rituais</h1>
+    <p class="subtitle">Sistema operacional do time de Martech — estrutura de rituais, fluxo de decisão, metas do ciclo 2026 e indicadores por núcleo.</p>
+  </header>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('nucleo', this)">Núcleos</button>
+    <button class="tab-btn" onclick="showTab('organograma', this)">Organograma</button>
+    <button class="tab-btn" onclick="showTab('rituais', this)">Rituais</button>
+    <button class="tab-btn" onclick="showTab('metas', this)">Metas 2026</button>
+    <button class="tab-btn" onclick="showTab('indicadores', this)">Indicadores</button>
+    <button class="tab-btn" onclick="showTab('gestao', this)">Gestão</button>
+    <button class="tab-btn" onclick="showTab('principios', this)">Princípios</button>
+  </div>
+
+  <!-- TAB: NÚCLEOS -->
+  <div class="tab-content active" id="tab-nucleo">
+    <div class="section-label">Estrutura dos Núcleos</div>
+    <div class="nucleos-grid">
+
+      <div class="nucleo-card n1">
+        <div class="nucleo-num">NÚCLEO 01 · Bruno Alves</div>
+        <div class="nucleo-title">Processos &<br>Marketing Ops</div>
+        <div class="nucleo-desc">Responsável pelos processos operacionais de marketing e pela gestão orçamentária da diretoria. Ponto central de eficiência e governança. Backoffice, gestão orçamentária e processos.</div>
+        <div class="nucleo-tags">
+          <span class="tag">Processos</span>
+          <span class="tag">Orçamento</span>
+          <span class="tag">Governança</span>
+          <span class="tag">SLAs</span>
+          <span class="tag">Fluxos</span>
+        </div>
+      </div>
+
+      <div class="nucleo-card n2">
+        <div class="nucleo-num">NÚCLEO 02 · Andersson Souza</div>
+        <div class="nucleo-title">BI, Dados &<br>Sales Ops</div>
+        <div class="nucleo-desc">Orquestra dados de marketing e vendas. Projeta receitas, monitora indicadores macro e produz forecasts por unidade de negócio. Inteligência de mercado e analytics.</div>
+        <div class="nucleo-tags">
+          <span class="tag">BI</span>
+          <span class="tag">Forecast</span>
+          <span class="tag">Receita</span>
+          <span class="tag">Analytics</span>
+          <span class="tag">Sales Ops</span>
+        </div>
+      </div>
+
+      <div class="nucleo-card n3">
+        <div class="nucleo-num">NÚCLEO 03 · Especialista CRM</div>
+        <div class="nucleo-title">CRM &<br>Plataformas</div>
+        <div class="nucleo-desc">Gestão completa da stack de CRM e ecossistema de plataformas. Garante a integridade, evolução e adoção das ferramentas de relacionamento. Frente do HubSpot e da stack Martech.</div>
+        <div class="nucleo-tags">
+          <span class="tag">CRM</span>
+          <span class="tag">Stack</span>
+          <span class="tag">Automação</span>
+          <span class="tag">Integrações</span>
+          <span class="tag">Jornadas</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FLUXO DE DECISÃO AQUI RESUMIDO -->
+    <div class="section-label">Hierarquia Operacional</div>
+    <div class="fluxo-grid">
+      <div class="fluxo-item">
+        <div class="arrow-connector">→</div>
+        <div class="fluxo-step">CAMADA 01</div>
+        <div class="fluxo-name">Head Martech</div>
+        <div class="fluxo-desc">Visão estratégica, prioridades cross-núcleo, interface com diretoria e demais áreas.</div>
+      </div>
+      <div class="fluxo-item">
+        <div class="arrow-connector">→</div>
+        <div class="fluxo-step">CAMADA 02</div>
+        <div class="fluxo-name">Coordenações</div>
+        <div class="fluxo-desc">3 coordenadores — um por núcleo. Gestão tática, priorização de demandas e entrega.</div>
+      </div>
+      <div class="fluxo-item">
+        <div class="arrow-connector">→</div>
+        <div class="fluxo-step">CAMADA 03</div>
+        <div class="fluxo-name">Especialistas</div>
+        <div class="fluxo-desc">Execução técnica e operacional dentro de cada núcleo com autonomia guiada.</div>
+      </div>
+      <div class="fluxo-item">
+        <div class="fluxo-step">CAMADA 04</div>
+        <div class="fluxo-name">Stakeholders</div>
+        <div class="fluxo-desc">Times de Vendas, Marketing, Produto e Financeiro. Clientes internos do Martech.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: ORGANOGRAMA -->
+  <div class="tab-content" id="tab-organograma">
+    <div class="section-label">Organograma — Martech · 13 HC</div>
+    <div class="decisao-sub" style="margin-bottom: 28px; max-width: 680px;">Estrutura real do time (mai/2026). Uma Head, duas coordenações e a frente de CRM, com os times de Backoffice, Gestão Orçamentária e Processos. Duas posições em aberto (TBH) sinalizadas.</div>
+
+    <div class="org-wrap">
+      <!-- HEAD -->
+      <div class="org-node head">
+        <div class="org-role">Head Martech</div>
+        <div class="org-name">Mauricio Benetti</div>
+        <div class="org-title">Estrutura o sistema operacional de marketing e vendas</div>
+      </div>
+      <div class="org-connector"></div>
+
+      <!-- 3 BRAÇOS -->
+      <div class="org-branch">
+
+        <!-- COORD BI & DADOS -->
+        <div class="org-col">
+          <div class="org-node coord">
+            <div class="org-role">Coordenação</div>
+            <div class="org-name">Andersson Souza</div>
+            <div class="org-title">BI &amp; Dados</div>
+            <div class="org-hc">1 coord · 3 HC</div>
+          </div>
+          <div class="org-connector"></div>
+          <div class="org-members">
+            <div class="org-member">
+              <div class="m-name">Otávio Araújo</div>
+              <div class="m-title">Analista de Inteligência de Mercado III</div>
+            </div>
+            <div class="org-member">
+              <div class="m-name">Priscila Pereira</div>
+              <div class="m-title">Analista de Inteligência de Mercado III</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESPECIALISTA CRM -->
+        <div class="org-col">
+          <div class="org-node tbh">
+            <div class="org-role">Especialista · TBH</div>
+            <div class="org-name">CRM &amp; Plataformas</div>
+            <div class="org-title">Gestão da stack de CRM e ecossistema de plataformas</div>
+            <div class="org-hc">1 HC · vaga em aberto</div>
+          </div>
+        </div>
+
+        <!-- COORD PROCESSOS & OPS -->
+        <div class="org-col">
+          <div class="org-node coord">
+            <div class="org-role">Coordenação</div>
+            <div class="org-name">Bruno Alves</div>
+            <div class="org-title">Processos &amp; Marketing Ops</div>
+            <div class="org-hc">1 coord · 7 HC</div>
+          </div>
+          <div class="org-connector"></div>
+          <div class="org-members">
+            <span class="org-group-label blue">Backoffice</span>
+            <div class="org-member">
+              <div class="m-name">Stephanie Santana</div>
+              <div class="m-title">Assistente Administrativo</div>
+            </div>
+            <div class="org-member">
+              <div class="m-name">Ana Luísa Messias</div>
+              <div class="m-title">Assistente Administrativo</div>
+            </div>
+            <div class="org-member">
+              <div class="m-name">Júlia Ernandes</div>
+              <div class="m-title">Assistente Administrativo</div>
+            </div>
+            <div class="org-member">
+              <div class="m-name">Denise Ponciano</div>
+              <div class="m-title">Analista de Marketing II</div>
+            </div>
+            <span class="org-group-label blue">Gestão Orçamentária</span>
+            <div class="org-member">
+              <div class="m-name">Caroline Barbosa</div>
+              <div class="m-title">Analista de Marketing II</div>
+            </div>
+            <div class="org-member">
+              <div class="m-name">Letícia Rodrigues</div>
+              <div class="m-title">Assistente Administrativo</div>
+            </div>
+            <span class="org-group-label">Processos</span>
+            <div class="org-member tbh">
+              <div class="m-name">TBH</div>
+              <div class="m-title">Analista de Marketing III · vaga em aberto</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="org-legend">
+        <span><span class="dot solid"></span> Posição ativa</span>
+        <span><span class="dot dashed"></span> TBH — vaga em aberto</span>
+        <span>Total: 13 HC (1 Head · 2 Coord · 10 time) + 2 vagas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: RITUAIS -->
+  <div class="tab-content" id="tab-rituais">
+    <div class="section-label">Agenda de Rituais — Visão Semanal</div>
+
+    <div class="agenda-week">
+      <div class="agenda-day">
+        <div class="agenda-day-header">Segunda</div>
+        <div class="agenda-day-events">
+          <div class="agenda-event ev-all">
+            <span class="ev-time">09h — 30 min</span>
+            Kick-off Semanal Martech
+          </div>
+        </div>
+      </div>
+      <div class="agenda-day">
+        <div class="agenda-day-header">Terça</div>
+        <div class="agenda-day-events">
+          <div class="agenda-event ev-bi">
+            <span class="ev-time">10h — 45 min</span>
+            Review de Dados & Forecast
+          </div>
+        </div>
+      </div>
+      <div class="agenda-day">
+        <div class="agenda-day-header">Quarta</div>
+        <div class="agenda-day-events">
+          <div class="agenda-event ev-ops">
+            <span class="ev-time">09h30 — 30 min</span>
+            Processos & Budget Check
+          </div>
+          <div class="agenda-event ev-crm">
+            <span class="ev-time">14h — 45 min</span>
+            CRM & Plataformas Sync
+          </div>
+        </div>
+      </div>
+      <div class="agenda-day">
+        <div class="agenda-day-header">Quinta</div>
+        <div class="agenda-day-events">
+          <div class="agenda-event ev-all">
+            <span class="ev-time">10h — 60 min</span>
+            Alinhamento Cross-Núcleo
+          </div>
+        </div>
+      </div>
+      <div class="agenda-day">
+        <div class="agenda-day-header">Sexta</div>
+        <div class="agenda-day-events">
+          <div class="agenda-event ev-all">
+            <span class="ev-time">16h — 20 min</span>
+            Weekly Wrap-up & Blockers
+          </div>
+          <div class="agenda-event ev-bi">
+            <span class="ev-time">15h — 50 min · quinzenal</span>
+            Martech All Hands 🎉
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top: 32px;">Mapa Completo de Rituais</div>
+
+    <div class="rituals-matrix">
+      <!-- HEADER -->
+      <div class="matrix-cell head">Frequência</div>
+      <div class="matrix-cell head">Ritual</div>
+      <div class="matrix-cell head">Objetivo</div>
+      <div class="matrix-cell head">Participantes</div>
+      <div class="matrix-cell head">Output Esperado</div>
+
+      <!-- DIÁRIO -->
+      <div class="matrix-cell freq-label">Diário</div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">Daily Async</div><div class="ritual-detail">Slack / notion — 10 min</div><span class="ritual-owner owner-all">TODOS</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Status de blockers, andamento de tasks críticas do dia</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Cada coordenador + Head Martech</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Log de impedimentos e prioridade do dia</div></div>
+
+      <!-- SEMANAL 1 -->
+      <div class="matrix-cell freq-label" style="border-top: 1px solid var(--surface2);">Semanal</div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">Kick-off Martech</div><div class="ritual-detail">Segunda · 09h · 30 min</div><span class="ritual-owner owner-all">TODOS</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Alinhar prioridades da semana, checar OKRs e redistribuir urgências</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Head + 3 Coordenadores</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Sprint semanal definido, blocos de tempo alocados</div></div>
+
+      <div class="matrix-cell freq-label"></div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">Review de Dados</div><div class="ritual-detail">Terça · 10h · 45 min</div><span class="ritual-owner owner-bi">BI & SALES OPS</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Revisão de indicadores, forecast da semana e variações de receita</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Coord. BI + Head + Vendas (convidado)</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Dashboard atualizado, alertas de desvio endereçados</div></div>
+
+      <div class="matrix-cell freq-label"></div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">Processos & Budget</div><div class="ritual-detail">Quarta · 09h30 · 30 min</div><span class="ritual-owner owner-ops">MARKETING OPS</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Revisão de processos em andamento, consumo orçamentário e aprovações</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Coord. Ops + Head + Financeiro (quinzenal)</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Budget atualizado, processos validados ou repriorizado</div></div>
+
+      <div class="matrix-cell freq-label"></div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">CRM & Plataformas</div><div class="ritual-detail">Quarta · 14h · 45 min</div><span class="ritual-owner owner-crm">CRM</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Status de projetos de plataforma, integrações, incidentes e roadmap</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Coord. CRM + Squad + Head (quinzenal)</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Backlog priorizado, incidentes endereçados</div></div>
+
+      <div class="matrix-cell freq-label"></div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">Cross-Núcleo</div><div class="ritual-detail">Quinta · 10h · 60 min</div><span class="ritual-owner owner-all">TODOS</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Sinergias entre núcleos, projetos transversais, handoffs e decisões coletivas</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Head + 3 Coordenadores</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Decisões documentadas, dependências mapeadas</div></div>
+
+      <div class="matrix-cell freq-label"></div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">Wrap-up Semanal</div><div class="ritual-detail">Sexta · 16h · 20 min</div><span class="ritual-owner owner-all">TODOS</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Fechar a semana: o que foi entregue, o que não foi e por quê</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Head + Coordenadores</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Weekly report em 5 linhas no canal do time</div></div>
+
+      <!-- QUINZENAL -->
+      <div class="matrix-cell freq-label">Quinzenal</div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">Martech All Hands 🎉</div><div class="ritual-detail">Sexta (alt.) · 15h · 50 min</div><span class="ritual-owner owner-all">TIME INTEIRO</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Ritual de todo o time: aprendizados da quinzena, comemoração de entregas e palco rotativo para uma pessoa apresentar um tema, projeto ou win</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Todos os 13 HCs (Head + Coords + Especialista + Analistas + Assistentes)</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">1 aprendizado registrado, 1 win celebrado, 1 apresentação no palco rotativo</div></div>
+
+      <div class="matrix-cell freq-label"></div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">1:1 Coordenações</div><div class="ritual-detail">60 min por coord.</div><span class="ritual-owner owner-all">TODOS</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Desenvolvimento individual, desafios, carreira e clima do time</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Head ↔ cada Coordenador (separado)</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Plano de ação individual atualizado</div></div>
+
+      <div class="matrix-cell freq-label"></div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">Revisão de Budget</div><div class="ritual-detail">Com Financeiro · 45 min</div><span class="ritual-owner owner-ops">MARKETING OPS</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Reconciliação do orçamento da diretoria, projeções de gasto e aprovações maiores</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Coord. Ops + Head + Financeiro</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Planilha de controle atualizada, alertas de desvio</div></div>
+
+      <!-- MENSAL -->
+      <div class="matrix-cell freq-label">Mensal</div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">Martech Month Review</div><div class="ritual-detail">Último dia útil · 90 min</div><span class="ritual-owner owner-all">TODOS</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Resultados do mês vs metas, lições aprendidas e prioridades do próximo mês</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Head + 3 Coordenadores + Diretora Marketing</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Relatório executivo + backlog revisado</div></div>
+
+      <div class="matrix-cell freq-label"></div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">Alinhamento Diretoria</div><div class="ritual-detail">1x/mês · 45 min</div><span class="ritual-owner owner-all">HEAD</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Status estratégico do Martech para a diretoria de Marketing</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Head Martech + Diretoria</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Presentation deck 5 slides — resultados + próximos passos</div></div>
+
+      <!-- TRIMESTRAL -->
+      <div class="matrix-cell freq-label">Trimestral</div>
+      <div class="matrix-cell"><div class="ritual-item"><div class="ritual-name">Review de Metas 2026</div><div class="ritual-detail">90 min</div><span class="ritual-owner owner-all">TODOS</span></div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Avaliação dos marcos das metas do ciclo (CRM, Martech, ROL, Despesa), calibragem de prazos e riscos</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">Head + 3 Coordenadores + Diretoria</div></div>
+      <div class="matrix-cell"><div class="ritual-detail">OKRs do próximo trimestre aprovados</div></div>
+
+    </div>
+
+    <div class="section-label" style="margin-top: 40px;">Anatomia da All Hands</div>
+    <div class="decisao-sub" style="margin-bottom: 20px; max-width: 640px;">Ritual quinzenal de todo o time. Não é status report — é o momento de conectar a operação ao propósito, reconhecer pessoas e dar palco. Sugestão de divisão dos 50 minutos:</div>
+    <div class="fluxo-grid" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="fluxo-item">
+        <div class="arrow-connector">→</div>
+        <div class="fluxo-step">10 MIN</div>
+        <div class="fluxo-name">Abertura & Números</div>
+        <div class="fluxo-desc">Head abre com o pulso do ciclo: onde estamos nas metas 2026 (CRM, Martech, ROL), o que mudou e por quê. Visão macro, sem detalhe operacional.</div>
+      </div>
+      <div class="fluxo-item">
+        <div class="arrow-connector">→</div>
+        <div class="fluxo-step">15 MIN</div>
+        <div class="fluxo-name">Palco Rotativo</div>
+        <div class="fluxo-desc">Uma pessoa diferente a cada edição apresenta: um projeto, um aprendizado técnico, um case ou algo que dominou. Constrói repertório e visibilidade.</div>
+      </div>
+      <div class="fluxo-item">
+        <div class="arrow-connector">→</div>
+        <div class="fluxo-step">15 MIN</div>
+        <div class="fluxo-name">Aprendizados</div>
+        <div class="fluxo-desc">O que funcionou e o que falhou na quinzena, em formato leve. Erros viram aprendizado coletivo — segurança psicológica na prática.</div>
+      </div>
+      <div class="fluxo-item">
+        <div class="fluxo-step">10 MIN</div>
+        <div class="fluxo-name">Comemorações</div>
+        <div class="fluxo-desc">Reconhecimento de entregas, marcos batidos e shout-outs entre colegas. Fecha no alto, com energia para a próxima quinzena.</div>
+      </div>
+    </div>
+
+    <div class="decisao-grid" style="margin-top: 24px;">
+      <div class="decisao-card">
+        <div class="decisao-title">Regras da All Hands</div>
+        <div class="decisao-sub">Para o ritual não virar mais uma reunião de status.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">PALCO</span>
+            <span class="decisao-text">Rodízio definido com antecedência — todos passam pelo palco ao longo do ano, inclusive analistas e assistentes</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head">SEM STATUS</span>
+            <span class="decisao-text">Status de tarefas fica nos rituais de núcleo. Aqui é aprendizado, contexto e reconhecimento</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-dir">PRESENÇA</span>
+            <span class="decisao-text">Presença esperada de todos os 13 HCs — é o único ritual com o time inteiro junto</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="decisao-card">
+        <div class="decisao-title">Rodízio do Palco</div>
+        <div class="decisao-sub">Quem apresenta e exemplos de temas — gira a cada edição.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">BI/DADOS</span>
+            <span class="decisao-text">Um insight que mudou uma decisão, leitura de um dashboard novo, case de forecast</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">PROC/OPS</span>
+            <span class="decisao-text">Um processo redesenhado, ganho de eficiência, aprendizado de governança orçamentária</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">CRM</span>
+            <span class="decisao-text">Marco do HubSpot, uma automação nova, aprendizado da migração RD/Zendesk</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: METAS 2026 -->
+  <div class="tab-content" id="tab-metas">
+    <div class="section-label">Metas do Ciclo 2026 — Definidas pela Diretoria</div>
+    <div class="decisao-sub" style="margin-bottom: 24px; max-width: 680px;">Metas do ciclo enviadas pela diretoria/board. O peso de cada uma reflete sua centralidade estratégica. Abaixo, o desdobramento para o time com o dono de cada frente.</div>
+
+    <div class="metas-grid">
+
+      <div class="meta-card meta-crm">
+        <div class="meta-head">
+          <span class="meta-peso">50%</span>
+          <div>
+            <div class="meta-nome">CRM — HubSpot</div>
+            <div class="meta-dono">Dono: Especialista CRM · apoio Head</div>
+          </div>
+        </div>
+        <div class="meta-desc">Projeto mais estratégico do ano. Implantação funcional e adotada até dez/2026, com go-live em jun/2026. Integração TOTVS via datalake e descomissionamento de RD + Zendesk.</div>
+        <div class="kpi-list">
+          <div class="kpi-row"><span class="kpi-tag">KPI 1 · 10%</span><span class="kpi-text">Configuração concluída + integração TOTVS via datalake validada — até jul</span></div>
+          <div class="kpi-row"><span class="kpi-tag">KPI 2 · 20%</span><span class="kpi-text">Go-live em produção com captação e CX operando — até set</span></div>
+          <div class="kpi-row"><span class="kpi-tag">KPI 3 · 10%</span><span class="kpi-text">Adoção ativa ≥ 80% dos usuários-alvo (login semanal + módulos core) — até dez</span></div>
+          <div class="kpi-row"><span class="kpi-tag">KPI 4 · 10%</span><span class="kpi-text">Migração completa: RD e Zendesk descomissionados, dados unificados — até dez</span></div>
+        </div>
+      </div>
+
+      <div class="meta-card meta-martech">
+        <div class="meta-head">
+          <span class="meta-peso">20%</span>
+          <div>
+            <div class="meta-nome">Martech</div>
+            <div class="meta-dono">Donos: BI/Dados + CRM (4 frentes)</div>
+          </div>
+        </div>
+        <div class="meta-desc">Infraestrutura que habilita decisões de mídia baseadas em dados. 4 frentes independentes e proporcionais — 5% cada, permitindo reconhecer entregas parciais.</div>
+        <div class="kpi-list">
+          <div class="kpi-row"><span class="kpi-tag">CDP · 5%</span><span class="kpi-text">Plataforma implantada e ≥ 3 fontes de dados unificadas — até set</span></div>
+          <div class="kpi-row"><span class="kpi-tag">TAG · 5%</span><span class="kpi-text">Tagueamento ≥ 95% dos pontos de conversão mapeados — até jun</span></div>
+          <div class="kpi-row"><span class="kpi-tag">ATRIB · 5%</span><span class="kpi-text">Modelo de atribuição multi-touch operacional e reportável — até set</span></div>
+          <div class="kpi-row"><span class="kpi-tag">MÍDIA · 5%</span><span class="kpi-text">≥ 2 jornadas de mídia paga acionadas por segmentos do CDP — até dez</span></div>
+        </div>
+      </div>
+
+      <div class="meta-card meta-rol">
+        <div class="meta-head">
+          <span class="meta-peso">20%</span>
+          <div>
+            <div class="meta-nome">ROL Mandic</div>
+            <div class="meta-dono">Dono: BI/Dados · meta consolidada</div>
+          </div>
+        </div>
+        <div class="meta-desc">% de atingimento da meta global de ROL da companhia. Curva padrão de atingimento do orçamento, sujeita a revisão da mantenedora.</div>
+        <div class="kpi-list">
+          <div class="kpi-row"><span class="kpi-text">Medido sobre a meta consolidada de Marketing — não de BU específica. O ferramental entregue é infraestrutura crítica para o resultado de captação.</span></div>
+        </div>
+      </div>
+
+      <div class="meta-card meta-despesa">
+        <div class="meta-head">
+          <span class="meta-peso">10%</span>
+          <div>
+            <div class="meta-nome">Despesa</div>
+            <div class="meta-dono">Dono: Processos & Marketing Ops</div>
+          </div>
+        </div>
+        <div class="meta-desc">% de atingimento do orçamento aprovado. Accountability padrão sobre o orçamento da área.</div>
+        <div class="kpi-list">
+          <div class="kpi-row"><span class="kpi-text">Atingimento pleno quando despesa realizada ≤ 100% do aprovado. Penalidade proporcional acima disso, conforme limites da mantenedora.</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-label" style="margin-top: 48px;">Como cada núcleo carrega as metas</div>
+    <div class="decisao-grid">
+      <div class="decisao-card">
+        <div class="decisao-title">Mapa de Donos por Frente</div>
+        <div class="decisao-sub">Cada frente das metas tem um núcleo responsável. Cross-núcleo onde a entrega depende de mais de um.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-dir">CRM</span>
+            <span class="decisao-text">Especialista CRM lidera HubSpot, go-live, adoção e migração. Head apoia integração com TI/TOTVS</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">BI/DADOS</span>
+            <span class="decisao-text">Andersson lidera CDP, atribuição e ROL. Tagueamento em conjunto com CRM</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head">PROC/OPS</span>
+            <span class="decisao-text">Bruno lidera Despesa e governança orçamentária, com suporte de processo às demais frentes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="decisao-card">
+        <div class="decisao-title">Pontos de Atenção</div>
+        <div class="decisao-sub">Dependências e riscos a monitorar nos rituais de OKR e All Hands.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">CRM</span>
+            <span class="decisao-text">Formalizar lista nominal de "usuários-alvo" da adoção ≥ 80% até jan/2026</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">DEPEND.</span>
+            <span class="decisao-text">Prazos jun/set/dez pressupõem disponibilidade de TI e fornecedores — prever revisão proporcional</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head">ATRIB.</span>
+            <span class="decisao-text">Atribuição depende da maturidade do CDP — se o CDP atrasar, reavaliar prazo no meio do ciclo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: INDICADORES -->
+  <div class="tab-content" id="tab-indicadores">
+    <div class="section-label">KPIs por Núcleo — Ligados às Metas 2026</div>
+    <div class="decisao-sub" style="margin-bottom: 24px; max-width: 680px;">Cada núcleo acompanha os indicadores que alimentam diretamente as metas do ciclo. A tag indica a qual meta o bloco de KPIs serve — leitura rápida do "porquê" de cada número.</div>
+    <div class="indicadores-grid">
+
+      <div class="ind-card n3">
+        <div class="ind-title">CRM &amp; Plataformas → Meta CRM (50%)</div>
+        <ul class="ind-list">
+          <li>% de configuração concluída e integração TOTVS via datalake validada <strong>(KPI1 · jul)</strong></li>
+          <li>Go-live em produção: captação e CX operando <strong>(KPI2 · set)</strong></li>
+          <li>Adoção ativa: % de usuários-alvo com login semanal + uso dos módulos core — meta ≥ 80% <strong>(KPI3 · dez)</strong></li>
+          <li>% de migração concluída: RD e Zendesk descomissionados, dados unificados <strong>(KPI4 · dez)</strong></li>
+          <li>Qualidade de dados no CRM (completude e acurácia) — habilita adoção</li>
+          <li>Uptime e tempo de resolução de incidentes nas plataformas críticas</li>
+        </ul>
+      </div>
+
+      <div class="ind-card n2">
+        <div class="ind-title">BI, Dados &amp; Sales Ops → Martech (CDP/Atrib.) + ROL (20%+20%)</div>
+        <ul class="ind-list">
+          <li>CDP: nº de fontes de dados unificadas — meta ≥ 3 <strong>(Martech · set)</strong></li>
+          <li>Atribuição: modelo multi-touch operacional e reportável <strong>(Martech · set)</strong></li>
+          <li>Tagueamento: % dos pontos de conversão mapeados — meta ≥ 95% <strong>(Martech · jun)</strong></li>
+          <li>ROL: % de atingimento da meta consolidada de Marketing <strong>(ROL)</strong></li>
+          <li>Acurácia do forecast de receita por unidade de negócio</li>
+          <li>Cobertura de dados (% de fontes integradas e ativas) e atualidade dos dashboards</li>
+        </ul>
+      </div>
+
+      <div class="ind-card n1">
+        <div class="ind-title">Processos &amp; Marketing Ops → Despesa (10%) + Mídia</div>
+        <ul class="ind-list">
+          <li>Despesa realizada vs orçamento aprovado — meta ≤ 100% <strong>(Despesa)</strong></li>
+          <li>Acionamento de mídia: nº de jornadas de mídia paga por segmentos do CDP — meta ≥ 2 <strong>(Martech · dez)</strong></li>
+          <li>% de execução orçamentária vs planejado e alertas de desvio</li>
+          <li>SLA médio de atendimento a demandas internas</li>
+          <li>Nº de processos documentados e ativos · taxa de retrabalho</li>
+          <li>NPS interno de stakeholders (captação, CX, vendas)</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="section-label">Painel de Atingimento — Ciclo 2026</div>
+    <div class="decisao-sub" style="margin-bottom: 20px; max-width: 680px;">Visão consolidada de quanto cada meta pesa no bônus e o marco mais próximo. Acompanhado no Review de Metas trimestral e no pulso da All Hands.</div>
+    <div class="atg-grid">
+      <div class="atg-card atg-crm">
+        <div class="atg-peso">50%</div>
+        <div class="atg-nome">CRM — HubSpot</div>
+        <div class="atg-dono">Especialista CRM</div>
+        <div class="atg-next">Próximo marco: KPI2 go-live · set</div>
+      </div>
+      <div class="atg-card atg-blue">
+        <div class="atg-peso">20%</div>
+        <div class="atg-nome">Martech</div>
+        <div class="atg-dono">BI/Dados + CRM</div>
+        <div class="atg-next">Próximo marco: tagueamento ≥ 95% · jun</div>
+      </div>
+      <div class="atg-card atg-soft">
+        <div class="atg-peso">20%</div>
+        <div class="atg-nome">ROL Mandic</div>
+        <div class="atg-dono">BI/Dados</div>
+        <div class="atg-next">Curva consolidada de Marketing</div>
+      </div>
+      <div class="atg-card atg-blue">
+        <div class="atg-peso">10%</div>
+        <div class="atg-nome">Despesa</div>
+        <div class="atg-dono">Processos &amp; Ops</div>
+        <div class="atg-next">Realizado ≤ 100% do aprovado</div>
+      </div>
+    </div>
+
+    <div class="section-label">Indicadores Macro do Time</div>
+    <div class="decisao-grid">
+      <div class="decisao-card">
+        <div class="decisao-title">Metas 2026 do Martech</div>
+        <div class="decisao-sub">Definidas pela diretoria. Detalhe completo de KPIs e donos na aba <strong>Metas 2026</strong>. Revisadas no Review de Metas trimestral.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head" style="background:rgba(248,202,16,0.14); color: var(--accent4);">50%</span>
+            <span class="decisao-text">CRM — HubSpot: go-live jun/2026, adoção ≥ 80% e migração de RD + Zendesk até dez</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head" style="background:rgba(25,104,220,0.2); color: var(--accent2);">20%</span>
+            <span class="decisao-text">Martech: CDP, tagueamento, atribuição e acionamento de mídia (4 frentes de 5%)</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head" style="background:rgba(74,139,240,0.16); color: var(--accent3);">20%</span>
+            <span class="decisao-text">ROL Mandic: atingimento da meta consolidada de Marketing</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head" style="background:rgba(25,104,220,0.2); color: var(--accent2);">10%</span>
+            <span class="decisao-text">Despesa: realizado ≤ 100% do orçamento aprovado</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="decisao-card">
+        <div class="decisao-title">Cadência de Reporte</div>
+        <div class="decisao-sub">Como e quando os resultados das metas sobem para cada camada da organização.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">SEMANAL</span>
+            <span class="decisao-text">Weekly report em 5 linhas: avanço nos marcos das metas, pendentes, blockers</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">QUINZENAL</span>
+            <span class="decisao-text">Pulso das metas na All Hands: onde estamos em CRM, Martech, ROL e Despesa</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head">MENSAL</span>
+            <span class="decisao-text">Relatório executivo para a Diretora de Marketing (5 slides) com % por meta</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-dir">TRIMESTRAL</span>
+            <span class="decisao-text">Review de Metas completo com diretoria: marcos aferidos e riscos de prazo</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TAB: GESTÃO -->
+  <div class="tab-content" id="tab-gestao">
+    <div class="section-label">Modelo de Decisão</div>
+    <div class="decisao-grid" style="margin-bottom: 40px;">
+      <div class="decisao-card">
+        <div class="decisao-title">O que cada nível decide</div>
+        <div class="decisao-sub">Clareza de autonomia evita burocracia desnecessária e acelera a execução.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">COORD.</span>
+            <span class="decisao-text">Priorização de demandas do núcleo, alocação do time, decisões técnicas de execução</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head">HEAD</span>
+            <span class="decisao-text">Projetos cross-núcleo, contratações, investimentos não previstos, posicionamento externo</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-dir">DIRETORIA</span>
+            <span class="decisao-text">Orçamento macro, OKRs do trimestre, mudanças de estrutura, parceiros estratégicos</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="decisao-card">
+        <div class="decisao-title">Gestão de Demandas</div>
+        <div class="decisao-sub">Como entram, são priorizadas e entregues as demandas ao time.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">ENTRADA</span>
+            <span class="decisao-text">Canal único de intake (formulário / board), sem demandas diretas ao especialista</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head">TRIAGEM</span>
+            <span class="decisao-text">Coordenador classifica: urgente / planejado / backlog — semanalmente no kick-off</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-dir">ENTREGA</span>
+            <span class="decisao-text">SLA definido por tipo de demanda, comunicação proativa ao solicitante</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Fluxo de Escalada</div>
+    <div class="fluxo-grid" style="margin-bottom: 40px;">
+      <div class="fluxo-item">
+        <div class="arrow-connector">→</div>
+        <div class="fluxo-step">PASSO 01</div>
+        <div class="fluxo-name">Identificar</div>
+        <div class="fluxo-desc">Especialista ou coordenador sinaliza blocker ou risco no daily async.</div>
+      </div>
+      <div class="fluxo-item">
+        <div class="arrow-connector">→</div>
+        <div class="fluxo-step">PASSO 02</div>
+        <div class="fluxo-name">Resolver no Núcleo</div>
+        <div class="fluxo-desc">Coordenador tenta resolver internamente com autonomia em até 24h.</div>
+      </div>
+      <div class="fluxo-item">
+        <div class="arrow-connector">→</div>
+        <div class="fluxo-step">PASSO 03</div>
+        <div class="fluxo-name">Escalar ao Head</div>
+        <div class="fluxo-desc">Se não resolvido, escala no Cross-Núcleo (quinta) com contexto claro.</div>
+      </div>
+      <div class="fluxo-item">
+        <div class="fluxo-step">PASSO 04</div>
+        <div class="fluxo-name">Decisão Final</div>
+        <div class="fluxo-desc">Head decide ou leva à diretoria se envolver orçamento ou estrutura.</div>
+      </div>
+    </div>
+
+    <div class="section-label">Gestão de Projetos</div>
+    <div class="decisao-grid">
+      <div class="decisao-card">
+        <div class="decisao-title">Ferramentas Recomendadas</div>
+        <div class="decisao-sub">Stack mínima viável para operação integrada do Martech.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">PROJETOS</span>
+            <span class="decisao-text">Notion ou Jira — backlog unificado com lanes por núcleo</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">DOCS</span>
+            <span class="decisao-text">Confluence ou Notion — playbooks, processos e registros de decisão</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">ASYNC</span>
+            <span class="decisao-text">Slack com canais por núcleo + #martech-geral + #martech-blockers</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">DADOS</span>
+            <span class="decisao-text">Looker / Power BI — dashboard único de indicadores do time</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="decisao-card">
+        <div class="decisao-title">Ciclo de Sprint</div>
+        <div class="decisao-sub">Ritmo de execução baseado em sprints quinzenais por núcleo.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">DIA 1</span>
+            <span class="decisao-text">Sprint planning com coordenador — tasks, responsáveis e critérios de pronto</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head">MEIO</span>
+            <span class="decisao-text">Check-in do coord. com Head (15 min) — risco de desvio e repriorizações</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head">FIM</span>
+            <span class="decisao-text">Sprint review: entregues, não entregues, lição aprendida em 1 linha</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-dir">REGRA</span>
+            <span class="decisao-text">Nenhuma task entra no sprint sem owner e critério de pronto definidos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PRINCÍPIOS -->
+  <div class="tab-content" id="tab-principios">
+    <div class="section-label">Princípios Operacionais</div>
+    <div class="principios-grid">
+
+      <div class="principio-card">
+        <div class="principio-num">01</div>
+        <div class="principio-title">Dados antes de opinião</div>
+        <div class="principio-desc">Toda decisão relevante parte de dados. O núcleo de BI é o árbitro de realidade do time. Intuição complementa, não substitui a evidência.</div>
+      </div>
+
+      <div class="principio-card">
+        <div class="principio-num">02</div>
+        <div class="principio-title">Processo liberta</div>
+        <div class="principio-desc">Processos bem desenhados criam autonomia — não burocracia. O núcleo de Ops existe para que o time gaste energia no que importa, não em ruído operacional.</div>
+      </div>
+
+      <div class="principio-card">
+        <div class="principio-num">03</div>
+        <div class="principio-title">Plataforma como produto</div>
+        <div class="principio-desc">O CRM e a stack de plataformas são produtos internos. Têm usuários, têm NPS, têm roadmap. A adoção é uma métrica tão importante quanto o uptime.</div>
+      </div>
+
+      <div class="principio-card">
+        <div class="principio-num">04</div>
+        <div class="principio-title">Clareza de dono</div>
+        <div class="principio-desc">Toda entrega tem um owner único. Responsabilidade compartilhada sem owner definido é sinônimo de ninguém responsável. Owner não precisa fazer, precisa garantir.</div>
+      </div>
+
+      <div class="principio-card">
+        <div class="principio-num">05</div>
+        <div class="principio-title">Foco no todo</div>
+        <div class="principio-desc">Os três núcleos servem ao mesmo resultado: marketing e vendas mais eficazes. Silos internos são o primeiro inimigo a combater. Cross-núcleo é hábito, não exceção.</div>
+      </div>
+
+      <div class="principio-card">
+        <div class="principio-num">06</div>
+        <div class="principio-title">Velocidade com registro</div>
+        <div class="principio-desc">Agilidade não dispensa documentação. Decisões, processos e aprendizados precisam existir fora da cabeça das pessoas. O conhecimento do time é patrimônio da empresa.</div>
+      </div>
+
+    </div>
+
+    <div class="section-label">Cultura de Feedback</div>
+    <div class="decisao-grid">
+      <div class="decisao-card">
+        <div class="decisao-title">Práticas de Feedback</div>
+        <div class="decisao-sub">Como o time aprende e cresce junto.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">1:1</span>
+            <span class="decisao-text">Quinzenal Head ↔ Coord. — espaço seguro, agenda do liderado, sem pauta fixa imposta</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head">RETRO</span>
+            <span class="decisao-text">Monthly retrospectiva rápida: o que funcionou, o que trava, o que experimentar</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-dir">360°</span>
+            <span class="decisao-text">Semestral — feedback estruturado entre coordenadores e com Head</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="decisao-card">
+        <div class="decisao-title">Saúde do Time</div>
+        <div class="decisao-sub">Indicadores qualitativos que importam tanto quanto os KPIs.</div>
+        <div class="decisao-items">
+          <div class="decisao-row">
+            <span class="decisao-badge badge-coord">CLAREZA</span>
+            <span class="decisao-text">Todo membro sabe o que se espera dele e como seu trabalho contribui pro resultado</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-head">SEGURANÇA</span>
+            <span class="decisao-text">Erros geram aprendizado, não punição. Blockers são sinalizados sem medo</span>
+          </div>
+          <div class="decisao-row">
+            <span class="decisao-badge badge-dir">EVOLUÇÃO</span>
+            <span class="decisao-text">Cada coordenador tem um plano de desenvolvimento claro e acompanhado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Martech · Modelo de Gestão v2.0 · jun/2026</span>
+    <span class="version-badge">3 núcleos · 13 HCs · metas 2026</span>
+  </footer>
+
+</div>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    var target = btn || (window.event && window.event.target);
+    if (target) target.classList.add('active');
+  }
+</script>
+</body>
+</html>
