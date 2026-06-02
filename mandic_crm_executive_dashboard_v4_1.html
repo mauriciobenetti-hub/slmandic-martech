@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>São Leopoldo Mandic — Plano de Transformação CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink: #C0166B;
+    --pink-light: #F5D0E6;
+    --pink-mid: #E8528F;
+    --pink-dark: #8A0E4D;
+    --ink: #0F0A1A;
+    --ink-soft: #2D2440;
+    --ink-mute: #6B6280;
+    --cream: #FAF7F2;
+    --cream-dark: #F0EBE2;
+    --white: #FFFFFF;
+    --border: rgba(15,10,26,0.1);
+    --border-strong: rgba(15,10,26,0.2);
+    --green: #0F7B4B;
+    --green-bg: #E8F7F0;
+    --amber: #8A5A00;
+    --amber-bg: #FFF4D9;
+    --red: #B91C1C;
+    --red-bg: #FEE8E8;
+    --blue: #1A4F9C;
+    --blue-bg: #E6EEF9;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-pill: 999px;
+    --shadow: 0 2px 20px rgba(192,22,107,0.08), 0 1px 4px rgba(15,10,26,0.06);
+    --shadow-lg: 0 8px 40px rgba(192,22,107,0.12), 0 2px 8px rgba(15,10,26,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--ink);
+    color: var(--white);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-mark {
+    width: 36px;
+    height: 36px;
+    background: var(--pink);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: white;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+  }
+  .header-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    color: white;
+    letter-spacing: -0.2px;
+  }
+  .header-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    margin-top: 1px;
+  }
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.55);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { background: rgba(255,255,255,0.08); color: white; }
+  .nav-btn.active { background: var(--pink); color: white; }
+  .header-badge {
+    background: rgba(192,22,107,0.2);
+    color: var(--pink-mid);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    border: 1px solid rgba(192,22,107,0.3);
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--ink);
+    padding: 64px 32px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(192,22,107,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 20%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(192,22,107,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 1280px; margin: 0 auto; position: relative; z-index: 1; }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--pink-mid);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--pink-mid);
+  }
+  .hero-h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 800;
+    color: white;
+    line-height: 1.0;
+    letter-spacing: -1.5px;
+    margin-bottom: 16px;
+  }
+  .hero-h1 span { color: var(--pink-mid); }
+  .hero-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.5);
+    max-width: 560px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+  .hero-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    max-width: 860px;
+    background: rgba(255,255,255,0.06);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .hero-kpi {
+    padding: 20px 24px;
+    background: rgba(255,255,255,0.03);
+    transition: background 0.2s;
+  }
+  .hero-kpi:hover { background: rgba(255,255,255,0.06); }
+  .hero-kpi-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hero-kpi-val em { color: var(--pink-mid); font-style: normal; }
+  .hero-kpi-label { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+  /* ─── MAIN LAYOUT ─── */
+  .main { max-width: 1280px; margin: 0 auto; padding: 40px 32px 80px; }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--pink);
+    letter-spacing: 0.1em;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.3px;
+  }
+  .section-wrap { margin-bottom: 48px; }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-mute);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  /* ─── GRID UTILS ─── */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .g-65 { display: grid; grid-template-columns: 1.6fr 1fr; gap: 16px; }
+
+  /* ─── STACK TABLE ─── */
+  .stack-table { width: 100%; border-collapse: collapse; }
+  .stack-table th {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-mute);
+    text-align: left;
+    padding: 0 0 10px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .stack-table td {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    vertical-align: middle;
+  }
+  .stack-table tr:last-child td { border-bottom: none; }
+  .old-tool { color: var(--ink-mute); text-decoration: line-through; font-size: 12px; }
+  .new-tool { font-weight: 500; color: var(--ink); }
+  .arrow-cell { color: var(--border-strong); font-size: 16px; padding: 12px 12px; }
+  .pill {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+    letter-spacing: 0.04em;
+  }
+  .pill-pink { background: var(--pink-light); color: var(--pink-dark); }
+  .pill-amber { background: var(--amber-bg); color: var(--amber); }
+  .pill-green { background: var(--green-bg); color: var(--green); }
+  .pill-blue { background: var(--blue-bg); color: var(--blue); }
+  .pill-gray { background: var(--cream-dark); color: var(--ink-mute); }
+  .pill-red { background: var(--red-bg); color: var(--red); }
+
+  /* ─── BU GRID ─── */
+  .bu-item {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: default;
+  }
+  .bu-item:hover { border-color: var(--pink); transform: translateY(-1px); }
+  .bu-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .bu-sub { font-size: 11px; color: var(--ink-mute); line-height: 1.4; }
+  .bu-tag { margin-top: 8px; }
+
+  /* ─── ACCESS BARS ─── */
+  .access-row { margin-bottom: 10px; }
+  .access-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+  .access-role { font-size: 12px; color: var(--ink-soft); }
+  .access-scope { font-size: 11px; font-weight: 500; color: var(--pink-dark); }
+  .bar-track { height: 5px; background: var(--cream-dark); border-radius: 999px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 999px; background: var(--pink); transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+
+  /* ─── COST TABLE ─── */
+  .cost-table { width: 100%; }
+  .cost-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); gap: 12px; }
+  .cost-row:last-child { border-bottom: none; }
+  .cost-item { font-size: 13px; color: var(--ink-soft); }
+  .cost-amount { font-size: 13px; font-weight: 500; color: var(--ink); white-space: nowrap; }
+  .cost-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--ink);
+    border-radius: var(--radius-sm);
+    margin-top: 12px;
+  }
+  .cost-total-label { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7); }
+  .cost-total-value { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--pink-mid); }
+  .cost-sub-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 12px;
+    background: var(--cream);
+    border-radius: var(--radius-sm);
+    margin-top: 6px;
+    border: 1px solid var(--border);
+  }
+  .cost-sub-label { font-size: 12px; color: var(--ink-mute); }
+  .cost-sub-value { font-size: 13px; font-weight: 500; color: var(--ink-soft); }
+
+  /* ─── PHASE CARDS ─── */
+  .phase-card {
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .phase-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .phase-active { background: var(--ink); border-color: transparent; }
+  .phase-inactive { background: var(--white); }
+  .phase-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .phase-active .phase-num { color: var(--pink-mid); }
+  .phase-inactive .phase-num { color: var(--ink-mute); }
+  .phase-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .phase-active .phase-name { color: white; }
+  .phase-inactive .phase-name { color: var(--ink); }
+  .phase-desc { font-size: 11px; line-height: 1.6; }
+  .phase-active .phase-desc { color: rgba(255,255,255,0.55); }
+  .phase-inactive .phase-desc { color: var(--ink-mute); }
+  .phase-weeks {
+    margin-top: 12px;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+  }
+  .phase-active .phase-weeks { background: rgba(192,22,107,0.25); color: var(--pink-mid); }
+  .phase-inactive .phase-weeks { background: var(--cream-dark); color: var(--ink-mute); }
+
+  /* ─── GANTT ─── */
+  .gantt-wrap { overflow-x: auto; }
+  .gantt { width: 100%; min-width: 640px; border-collapse: collapse; }
+  .gantt th {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink-mute);
+    letter-spacing: 0.04em;
+    padding: 6px 4px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: var(--cream);
+  }
+  .gantt .row-label {
+    font-size: 11px;
+    color: var(--ink-soft);
+    padding: 7px 12px 7px 0;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: 400;
+    min-width: 180px;
+    border-bottom: 1px solid var(--border);
+  }
+  .gantt td { padding: 5px 2px; border-bottom: 1px solid var(--border); }
+  .gantt tr:last-child td, .gantt tr:last-child .row-label { border-bottom: none; }
+  .bar-cell { position: relative; height: 24px; }
+  .gantt-bar {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    height: 10px;
+    border-radius: 4px;
+    left: 0; right: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease, width 0.8s cubic-bezier(0.4,0,0.2,1);
+  }
+  .gantt-bar.visible { opacity: 0.85; }
+  .gantt-bar.go-live { opacity: 1; height: 14px; }
+  .gantt-ph1 { background: var(--pink); }
+  .gantt-ph2 { background: #6B5CC8; }
+  .gantt-ph3 { background: #1A7FAD; }
+  .gantt-ph4 { background: #1A7B4B; }
+  .gantt-golive { background: var(--pink); }
+  .phase-header { background: var(--cream-dark); font-size: 10px; font-weight: 700; color: var(--ink-mute); letter-spacing: 0.06em; text-transform: uppercase; padding: 6px 4px; text-align: center; }
+
+  /* ─── MIGRATION ─── */
+  .mig-decision {
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .mig-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .mig-sub { font-size: 10px; line-height: 1.4; }
+  .mig-green { background: var(--green-bg); }
+  .mig-green .mig-label { color: var(--green); }
+  .mig-green .mig-sub { color: var(--green); opacity: 0.75; }
+  .mig-amber { background: var(--amber-bg); }
+  .mig-amber .mig-label { color: var(--amber); }
+  .mig-amber .mig-sub { color: var(--amber); opacity: 0.75; }
+  .mig-red { background: var(--red-bg); }
+  .mig-red .mig-label { color: var(--red); }
+  .mig-red .mig-sub { color: var(--red); opacity: 0.75; }
+
+  /* ─── LOTES ─── */
+  .lote-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 0; border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .lote-row:last-child { border-bottom: none; }
+  .lote-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--pink-light);
+    color: var(--pink-dark);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .lote-text { color: var(--ink-soft); flex: 1; }
+
+  /* ─── RISKS ─── */
+  .risk-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .risk-item:last-child { border-bottom: none; }
+  .risk-dot-wrap { padding-top: 3px; }
+  .risk-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .risk-title { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .risk-desc { font-size: 11px; color: var(--ink-mute); line-height: 1.5; }
+  .risk-high { background: var(--red); }
+  .risk-med { background: #D97706; }
+  .risk-low { background: var(--green); }
+
+  /* ─── NEXT STEPS ─── */
+  .steps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .step-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    transition: border-color 0.2s;
+  }
+  .step-item:hover { border-color: var(--pink); }
+  .step-num-circle {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--pink);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-text { font-size: 12px; color: var(--ink-soft); line-height: 1.5; }
+
+  /* ─── TABS ─── */
+  .tab-nav {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+    background: var(--cream-dark);
+    border-radius: var(--radius-sm);
+    padding: 4px;
+    width: fit-content;
+  }
+  .tab-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: var(--ink-mute);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .tab-btn.active { background: var(--white); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background: var(--ink);
+    padding: 28px 32px;
+    margin-top: 0;
+  }
+  .footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .footer-text { font-size: 12px; color: rgba(255,255,255,0.35); }
+  .footer-text strong { color: rgba(255,255,255,0.65); }
+  .footer-conf {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+    text-align: right;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+  /* ─── INLINE TABLE ─── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .data-table th {
+    font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--ink-mute); padding: 8px 10px;
+    text-align: left; background: var(--cream-dark);
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); color: var(--ink-soft); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--cream); }
+
+  /* ─── WHATSAPP FEATURES ─── */
+  .wa-feat {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .wa-feat:last-child { border-bottom: none; }
+  .wa-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--pink-light);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+  .wa-title { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+  .wa-desc { font-size: 11px; color: var(--ink-mute); line-height: 1.4; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.5s ease both; }
+  .fade-up-1 { animation-delay: 0.05s; }
+  .fade-up-2 { animation-delay: 0.1s; }
+  .fade-up-3 { animation-delay: 0.15s; }
+  .fade-up-4 { animation-delay: 0.2s; }
+  .fade-up-5 { animation-delay: 0.25s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero-kpis { grid-template-columns: repeat(2, 1fr); }
+    .g4 { grid-template-columns: repeat(2, 1fr); }
+    .g2, .g3, .g-65 { grid-template-columns: 1fr; }
+    .steps-grid { grid-template-columns: 1fr; }
+    .header-nav { display: none; }
+  }
+  @media (max-width: 600px) {
+    .hero-kpis { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 40px 20px 60px; }
+    .main { padding: 24px 20px 60px; }
+    .hero-h1 { font-size: 32px; }
+  }
+
+  /* ─── COST COMPARISON IN STACK TABLE ─── */
+  .cost-old {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--red);
+    white-space: nowrap;
+  }
+  .cost-new {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green);
+    white-space: nowrap;
+  }
+  .cost-keep {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--amber);
+    white-space: nowrap;
+  }
+  .cost-na {
+    font-size: 11px;
+    color: var(--ink-mute);
+    white-space: nowrap;
+  }
+  .saving-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: var(--radius-pill);
+    background: var(--green-bg);
+    color: var(--green);
+    white-space: nowrap;
+  }
+  .saving-badge-amber {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: var(--radius-pill);
+    background: var(--amber-bg);
+    color: var(--amber);
+    white-space: nowrap;
+  }
+  .stack-table th.cost-col { text-align: right; }
+  .stack-table td.cost-col { text-align: right; }
+  .tr-keep { background: #FFFBF0; }
+  .tr-keep:hover td { background: #FFF6DC !important; }
+
+  /* ─── SAVINGS SUMMARY BAR ─── */
+  .savings-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: var(--ink);
+    border-radius: var(--radius-sm);
+  }
+  .savings-item { text-align: center; }
+  .savings-label { font-size: 10px; color: rgba(255,255,255,0.45); margin-bottom: 4px; letter-spacing: 0.04em; }
+  .savings-val { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
+  .savings-val.red { color: #F87171; }
+  .savings-val.green { color: #4ADE80; }
+  .savings-val.pink { color: var(--pink-mid); }
+
+  /* Print */
+  @media print {
+    .header { position: static; }
+    .hero::before, .hero::after { display: none; }
+    .phase-card, .card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="logo-mark">SL</div>
+      <div>
+        <div class="header-title">São Leopoldo Mandic</div>
+        <div class="header-sub">Plano de Transformação CRM · 2026</div>
+      </div>
+    </div>
+    <nav class="header-nav">
+      <button class="nav-btn active" onclick="scrollTo('#stack')">Stack</button>
+      <button class="nav-btn" onclick="scrollTo('#investimento')">Investimento</button>
+      <button class="nav-btn" onclick="scrollTo('#roadmap')">Roadmap</button>
+      <button class="nav-btn" onclick="scrollTo('#migracao')">Migração</button>
+      <button class="nav-btn" onclick="scrollTo('#datalake')">Data Lake</button>
+      <button class="nav-btn" onclick="scrollTo('#riscos')">Riscos</button>
+    </nav>
+    <div class="header-badge">v4 · Custos corrigidos · Abril 2026</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Resumo Executivo</div>
+    <h1 class="hero-h1 fade-up">Transformação<br><span>CRM Completa</span></h1>
+    <p class="hero-sub fade-up fade-up-1">RD Station + ZenDesk Sales + Reach substituídos por HubSpot Enterprise com WhatsApp integrado. Rubeus permanece como sistema de inscrição. ZenDesk CX mantido na fase inicial — migração para Service Hub prevista como próxima fase.</p>
+    <div class="hero-kpis fade-up fade-up-2" style="grid-template-columns: repeat(5, 1fr);">
+      <div class="hero-kpi">
+        <div class="hero-kpi-val"><em>R$</em> 1,54M</div>
+        <div class="hero-kpi-label">Investimento total<br>no Ano 1</div>
+      </div>
+      <div class="hero-kpi">
+        <div class="hero-kpi-val"><em>12</em> sem.</div>
+        <div class="hero-kpi-label">Da assinatura<br>ao Go-Live</div>
+      </div>
+      <div class="hero-kpi">
+        <div class="hero-kpi-val"><em>4</em> BUs</div>
+        <div class="hero-kpi-label">Unidades de negócio<br>com squads independentes</div>
+      </div>
+      <div class="hero-kpi">
+        <div class="hero-kpi-val"><em>500k</em></div>
+        <div class="hero-kpi-label">Contatos a migrar<br>do RD Station</div>
+      </div>
+      <div class="hero-kpi" style="border-left: 1px solid rgba(255,255,255,0.08);">
+        <div class="hero-kpi-val" style="color:#FCA5A5;">+R$ 177k</div>
+        <div class="hero-kpi-label">Delta/ano vs. ferramentas<br>atuais mapeadas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ── 1. NOVA STACK ── -->
+  <section class="section-wrap" id="stack">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Nova stack — substituição e permanências</h2>
+    </div>
+
+    <div class="g-65">
+      <div class="card">
+        <div class="card-title">De → Para · comparação de custo</div>
+        <div style="overflow-x:auto;">
+        <table class="stack-table" style="min-width:680px;">
+          <thead>
+            <tr>
+              <th>Ferramenta atual</th>
+              <th class="cost-col">Custo atual</th>
+              <th></th>
+              <th>Novo módulo</th>
+              <th>Tier</th>
+              <th class="cost-col">Custo novo¹</th>
+              <th class="cost-col">Variação/ano</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <span class="old-tool">RD Station</span><br>
+                <span style="font-size:10px;color:var(--ink-mute);">Marketing automation</span>
+              </td>
+              <td class="cost-col"><span class="cost-old">R$ 25.321/mês<br><span style="font-size:10px;font-weight:400;">≈ R$ 303.852/ano</span></span></td>
+              <td class="arrow-cell">→</td>
+              <td>
+                <span class="new-tool">Marketing Hub</span><br>
+                <span style="font-size:10px;color:var(--ink-mute);">+ Core Seat Hub Enterprise (40 seats)²</span>
+              </td>
+              <td><span class="pill pill-pink">Enterprise</span></td>
+              <td class="cost-col"><span class="cost-new">R$ 357.574/ano<br><span style="font-size:10px;font-weight:400;">Marketing Hub R$ 259.114 + Core Seat R$ 98.460</span></span></td>
+              <td class="cost-col"><span class="pill pill-amber" style="font-size:10px;">+R$ 53.722/ano</span><br><span style="font-size:9px;color:var(--ink-mute);">mas inclui Sales + Service Hub</span></td>
+            </tr>
+            <tr style="background:var(--amber-bg);">
+              <td>
+                <span style="font-size:13px;font-weight:500;color:var(--amber);">Rubeus</span><br>
+                <span style="font-size:10px;color:var(--ink-mute);">Ficha de inscrição / processo seletivo</span>
+              </td>
+              <td class="cost-col"><span class="cost-na">Não informado</span></td>
+              <td class="arrow-cell" style="color:var(--amber);">→</td>
+              <td>
+                <span style="font-size:13px;font-weight:500;color:var(--amber);">Rubeus permanece</span><br>
+                <span style="font-size:10px;color:var(--ink-mute);">Caminho futuro: Sistema de Inscrição Integrado ao HubSpot + RP</span>
+              </td>
+              <td><span class="pill pill-amber">Futuro</span></td>
+              <td class="cost-col"><span class="cost-keep">R$ 59.850 (setup)<br><span style="font-size:10px;font-weight:400;">+ R$ 5.600/mês manutenção</span></span></td>
+              <td class="cost-col"><span class="saving-badge-amber">Fase futura</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="old-tool">ZenDesk</span><br>
+                <span style="font-size:10px;color:var(--ink-mute);">Vendas / Sales (pipeline comercial)</span>
+              </td>
+              <td class="cost-col"><span class="cost-old">R$ 122.400/ano<br><span style="font-size:10px;font-weight:400;">≈ R$ 10.200/mês</span></span></td>
+              <td class="arrow-cell">→</td>
+              <td>
+                <span class="new-tool">Sales Hub</span><br>
+                <span style="font-size:10px;color:var(--ink-mute);">50 seats Enterprise</span>
+              </td>
+              <td><span class="pill pill-pink">Enterprise</span></td>
+              <td class="cost-col"><span class="cost-new">R$ 246.150/ano<br><span style="font-size:10px;font-weight:400;">≈ R$ 20.513/mês</span></span></td>
+              <td class="cost-col"><span class="pill pill-red" style="font-size:10px;">+R$ 123.750/ano</span><br><span style="font-size:9px;color:var(--ink-mute);">mas inclui pipeline, cadências e BUs</span></td>
+            </tr>
+            <tr>
+              <td>
+                <span class="old-tool">Reach (WhatsApp)</span><br>
+                <span style="font-size:10px;color:var(--ink-mute);">Mensageria ativa</span>
+              </td>
+              <td class="cost-col"><span class="cost-na">Não informado</span></td>
+              <td class="arrow-cell">→</td>
+              <td><span class="new-tool">WhatsApp + Spread.Chat</span></td>
+              <td><span class="pill pill-amber">Parceiro</span></td>
+              <td class="cost-col"><span class="cost-new">R$ 369.450/ano<br><span style="font-size:10px;font-weight:400;">40 seats + mensageria Meta</span></span></td>
+              <td class="cost-col"><span class="cost-na" style="font-size:10px;">—</span></td>
+            </tr>
+            <tr class="tr-keep">
+              <td>
+                <span style="font-size:13px;font-weight:500;color:var(--ink);">ZenDesk <span style="font-size:10px;font-weight:400;">(CX / suporte ao aluno)</span></span><br>
+                <span style="font-size:10px;color:var(--amber);font-weight:500;">Mantido por ora — migra para Service Hub em fase futura</span>
+              </td>
+              <td class="cost-col"><span class="cost-keep">Custo atual<br><span style="font-size:10px;font-weight:400;">mantido no orçamento</span></span></td>
+              <td class="arrow-cell" style="color:var(--amber);">→</td>
+              <td>
+                <span style="font-size:13px;font-weight:500;color:var(--amber);">Service Hub</span><br>
+                <span style="font-size:10px;color:var(--ink-mute);">migração planejada fase 2</span>
+              </td>
+              <td><span class="pill pill-amber">Futuro</span></td>
+              <td class="cost-col"><span class="cost-keep">R$ 49.230/ano<br><span style="font-size:10px;font-weight:400;">já incluso no licenciamento HubSpot</span></span></td>
+              <td class="cost-col"><span class="saving-badge-amber">Fase futura</span></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+
+        <!-- Savings summary -->
+        <div class="savings-bar">
+          <div class="savings-item">
+            <div class="savings-label">CUSTO ATUAL IDENTIFICADO</div>
+            <div class="savings-val red">R$ 426.252/ano</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;">RD Station R$ 303.852 + ZenDesk Sales R$ 122.400</div>
+          </div>
+          <div class="savings-item">
+            <div class="savings-label">CUSTO NOVO EQUIVALENTE</div>
+            <div class="savings-val" style="color:#FCA5A5;">R$ 603.724/ano</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;">Mkt Hub + Core Seat R$ 357.574 + Sales Hub R$ 246.150</div>
+          </div>
+          <div class="savings-item">
+            <div class="savings-label">DELTA DE INVESTIMENTO</div>
+            <div class="savings-val pink">+R$ 177.472/ano</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;">Custo maior, mas entrega muito mais capacidade — Service Hub e Data Layer inclusos</div>
+          </div>
+        </div>
+
+        <div style="margin-top:10px;padding:10px 12px;background:var(--cream-dark);border-radius:var(--radius-sm);border-left:3px solid var(--ink-mute);">
+          <div style="font-size:11px;font-weight:500;color:var(--ink);margin-bottom:4px;">Como interpretar o delta positivo</div>
+          <div style="font-size:11px;color:var(--ink-mute);line-height:1.6;">A comparação direta mostra um custo maior de <strong style="color:var(--ink);">R$ 177.472/ano</strong> nas ferramentas com custo informado. Isso é esperado: o HubSpot Enterprise entrega capacidades que o ZenDesk Sales + RD Station simplesmente não tinham — BUs segregadas, pipeline multi-squad, Lead Scoring, automações integradas, Custom Objects para catálogo de cursos e o <strong style="color:var(--ink);">Service Hub incluso</strong> (que substituirá o ZenDesk CX em fase futura, eliminando esse custo). O investimento adicional é justificado pela consolidação de plataforma e eliminação de integrações custosas entre sistemas separados.</div>
+        </div>
+
+        <div style="margin-top:8px;padding:10px 12px;background:var(--amber-bg);border-radius:var(--radius-sm);border-left:3px solid var(--amber);">
+          <div style="font-size:11px;font-weight:500;color:var(--amber);margin-bottom:2px;">Rubeus — permanece como sistema de inscrição</div>
+          <div style="font-size:11px;color:var(--ink-mute);line-height:1.5;">O Rubeus é voltado para ficha de inscrição e processo seletivo, não para pipeline comercial. Permanece ativo no curto prazo. A substituição futura é pelo <strong style="color:var(--ink);">Sistema de Inscrição Integrado ao HubSpot + RP</strong> (setup R$ 59.850 + manutenção R$ 5.600/mês) — já contemplado na proposta de implantação, como uma fase separada.</div>
+        </div>
+
+        <div style="margin-top:8px;padding:10px 12px;background:var(--cream);border-radius:var(--radius-sm);border-left:3px solid var(--pink);">
+          <div style="font-size:11px;font-weight:500;color:var(--ink);margin-bottom:3px;">Por que HubSpot Enterprise é mandatório?</div>
+          <div style="font-size:11px;color:var(--ink-mute);line-height:1.5;"><strong style="color:var(--ink);">Business Units</strong> para segregar os 4 squads · <strong style="color:var(--ink);">Custom Objects</strong> para o catálogo de cursos · <strong style="color:var(--ink);">Team Permissions</strong> para a visão 360° da diretoria sem expor dados entre BUs.</div>
+        </div>
+        <div style="margin-top:8px;font-size:10px;color:var(--ink-mute);">¹ Alocação proporcional do pacote Enterprise anual de R$ 718.594 (50% off, contrato 36 meses, câmbio R$ 5,47).  ² Core Seat Hub Enterprise (40 seats) alocado ao Marketing Hub por ser a licença de acesso base da plataforma para os usuários de marketing e vendas.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="card">
+          <div class="card-title">4 Unidades de negócio</div>
+          <div class="g2" style="gap:8px;">
+            <div class="bu-item">
+              <div class="bu-name">Grad. Medicina</div>
+              <div class="bu-sub">Araras · Campinas · Limeira · Arcoverde</div>
+              <div class="bu-tag"><span class="pill pill-pink">Vestibular</span></div>
+            </div>
+            <div class="bu-item">
+              <div class="bu-name">Grad. Odontologia</div>
+              <div class="bu-sub">Araras · Campinas · Limeira</div>
+              <div class="bu-tag"><span class="pill pill-pink">Vestibular</span></div>
+            </div>
+            <div class="bu-item">
+              <div class="bu-name">Pós Medicina</div>
+              <div class="bu-sub">Nacional / Online + Presencial</div>
+              <div class="bu-tag"><span class="pill pill-blue">Consultivo</span></div>
+            </div>
+            <div class="bu-item">
+              <div class="bu-name">Pós Odontologia</div>
+              <div class="bu-sub">Nacional / Online + Presencial</div>
+              <div class="bu-tag"><span class="pill pill-blue">Consultivo</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Visibilidade por perfil</div>
+          <div class="access-row">
+            <div class="access-meta"><span class="access-role">SDR / EV</span><span class="access-scope">Apenas sua BU</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:25%;"></div></div>
+          </div>
+          <div class="access-row">
+            <div class="access-meta"><span class="access-role">Líder de BU</span><span class="access-scope">Total da BU</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:50%;"></div></div>
+          </div>
+          <div class="access-row">
+            <div class="access-meta"><span class="access-role">Marketing / CX</span><span class="access-scope">Todos os contatos</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:75%;"></div></div>
+          </div>
+          <div class="access-row" style="margin-bottom:0;">
+            <div class="access-meta"><span class="access-role">Diretoria</span><span class="access-scope">Visão 360° total</span></div>
+            <div class="bar-track"><div class="bar-fill" style="width:100%;"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 2. INVESTIMENTO ── -->
+  <section class="section-wrap" id="investimento">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Investimento consolidado</h2>
+    </div>
+
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-ano1','this',event)">Visão Ano 1</button>
+      <button class="tab-btn" onclick="switchTab('tab-licenca','this',event)">Licenciamento HubSpot</button>
+      <button class="tab-btn" onclick="switchTab('tab-impl','this',event)">Implantação</button>
+      <button class="tab-btn" onclick="switchTab('tab-wa','this',event)">WhatsApp</button>
+    </div>
+
+    <div id="tab-ano1" class="tab-panel active">
+      <div class="g2">
+        <div class="card">
+          <div class="card-title">Resumo financeiro · Ano 1</div>
+          <div class="cost-table">
+            <div class="cost-row">
+              <span class="cost-item">Licença HubSpot Enterprise (anual, 50% off)</span>
+              <span class="cost-amount">R$ 718.594</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-item">Implantação CRM full — 453h de projeto</span>
+              <span class="cost-amount">R$ 336.000</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-item">Migração e tratamento de dados</span>
+              <span class="cost-amount">R$ 36.855</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-item">Sistema de inscrição integrado (setup)</span>
+              <span class="cost-amount">R$ 59.850</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-item">WhatsApp Spread.Chat · 40 seats/ano</span>
+              <span class="cost-amount">R$ 369.450</span>
+            </div>
+            <div class="cost-row">
+              <span class="cost-item">Linha oficial WhatsApp</span>
+              <span class="cost-amount">R$ 14.400</span>
+            </div>
+          </div>
+          <div class="cost-total-row">
+            <span class="cost-total-label">Total Ano 1</span>
+            <span class="cost-total-value">≈ R$ 1.535.149</span>
+          </div>
+          <div class="cost-sub-row">
+            <span class="cost-sub-label">Anos 2 e 3 (sem implantação)</span>
+            <span class="cost-sub-value">≈ R$ 1.102.444 / ano</span>
+          </div>
+          <p style="font-size:10px;color:var(--ink-mute);margin-top:10px;line-height:1.5;">Excl. mensageria Meta (variável por volume) e desenvolvimento de APIs de integração com SIS/ERP. Câmbio ref. R$ 5,47/USD.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Composição do investimento</div>
+          <canvas id="donut" width="260" height="260" style="display:block;margin:0 auto 16px;"></canvas>
+          <div id="donut-legend" style="display:flex;flex-direction:column;gap:8px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-licenca" class="tab-panel">
+      <div class="card">
+        <div class="card-title">Licenciamento HubSpot — contrato 36 meses · 50% de desconto</div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Item / Módulo</th>
+              <th style="text-align:right;">Tabela anual (US$)</th>
+              <th style="text-align:right;">Com 50% off (US$)</th>
+              <th style="text-align:right;">Em R$ (ref. 5,47)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Marketing Hub — 350k contatos</td><td style="text-align:right;">94.740</td><td style="text-align:right;font-weight:500;">47.370</td><td style="text-align:right;font-weight:500;color:var(--pink);">259.114</td></tr>
+            <tr><td>Sales Hub Enterprise — 50 seats</td><td style="text-align:right;">90.000</td><td style="text-align:right;font-weight:500;">45.000</td><td style="text-align:right;font-weight:500;color:var(--pink);">246.150</td></tr>
+            <tr><td>Service Hub Enterprise — 10 seats</td><td style="text-align:right;">18.000</td><td style="text-align:right;font-weight:500;">9.000</td><td style="text-align:right;font-weight:500;color:var(--pink);">49.230</td></tr>
+            <tr><td>Core Seat Hub Enterprise — 40 seats</td><td style="text-align:right;">36.000</td><td style="text-align:right;font-weight:500;">18.000</td><td style="text-align:right;font-weight:500;color:var(--pink);">98.460</td></tr>
+            <tr><td>IP Dedicado</td><td style="text-align:right;">3.600</td><td style="text-align:right;font-weight:500;">1.800</td><td style="text-align:right;font-weight:500;color:var(--pink);">9.846</td></tr>
+            <tr><td>Brands Unit 1</td><td style="text-align:right;">12.000</td><td style="text-align:right;font-weight:500;">6.000</td><td style="text-align:right;font-weight:500;color:var(--pink);">32.820</td></tr>
+            <tr><td>SSL Personalizado</td><td style="text-align:right;">1.200</td><td style="text-align:right;font-weight:500;">600</td><td style="text-align:right;font-weight:500;color:var(--pink);">3.282</td></tr>
+            <tr><td>E-mail Transacional</td><td style="text-align:right;">7.200</td><td style="text-align:right;font-weight:500;">3.600</td><td style="text-align:right;font-weight:500;color:var(--pink);">19.692</td></tr>
+            <tr style="background:var(--ink);">
+              <td style="color:white;font-weight:500;border-radius:0;">Total anual</td>
+              <td style="text-align:right;color:rgba(255,255,255,0.6);">262.740</td>
+              <td style="text-align:right;color:white;font-weight:600;">131.370</td>
+              <td style="text-align:right;color:var(--pink-mid);font-weight:700;font-size:14px;">R$ 718.594</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:10px;color:var(--ink-mute);margin-top:12px;">Faturamento possível em R$ via nota de débito (30% da invoice + IOF + câmbio). Confirmar disponibilidade com Mkt4edu.</p>
+      </div>
+    </div>
+
+    <div id="tab-impl" class="tab-panel">
+      <div class="card">
+        <div class="card-title">Serviços de implantação e consultoria — Mkt4edu / 4RevOps</div>
+        <table class="data-table">
+          <thead>
+            <tr><th>Serviço</th><th>Prazo</th><th style="text-align:right;">Tabela (R$)</th><th style="text-align:right;">Com desconto*</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Implantação CRM / MKT / Sales — Full (453h de projeto)</td><td>4 meses</td><td style="text-align:right;">480.000</td><td style="text-align:right;font-weight:500;color:var(--pink);">336.000</td></tr>
+            <tr><td>Tratamento da base de dados (higienização e migração RD → HubSpot)</td><td>3 semanas</td><td style="text-align:right;">52.650</td><td style="text-align:right;font-weight:500;color:var(--pink);">36.855</td></tr>
+            <tr><td>Sistema de inscrição integrado ao HubSpot e RP — Setup</td><td>1,5 mês</td><td style="text-align:right;">85.500</td><td style="text-align:right;font-weight:500;color:var(--pink);">59.850</td></tr>
+            <tr><td>Manutenção do sistema de inscrição (mensal, recorrente)</td><td>Mensal</td><td style="text-align:right;">8.000/mês</td><td style="text-align:right;font-weight:500;color:var(--pink);">5.600/mês</td></tr>
+            <tr style="background:var(--cream-dark);">
+              <td style="font-weight:500;">Total não recorrente</td><td></td>
+              <td style="text-align:right;font-weight:500;">618.150</td>
+              <td style="text-align:right;font-weight:700;color:var(--pink);">432.705</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:10px;color:var(--ink-mute);margin-top:10px;">*Desconto sujeito a confirmação com Mkt4edu. APIs de integração com SIS/ERP não incluídas — cotação adicional após análise de documentação.</p>
+        <div style="margin-top:16px;padding:12px 14px;background:var(--cream-dark);border-radius:var(--radius-sm);">
+          <div style="font-size:11px;font-weight:500;color:var(--ink);margin-bottom:8px;">Pacotes de suporte pós go-live</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="background:white;border-radius:8px;padding:10px 12px;text-align:center;border:1px solid var(--border);">
+              <div style="font-size:11px;color:var(--ink-mute);margin-bottom:3px;">Hora avulsa</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--ink);">R$ 550<span style="font-size:11px;font-weight:400;">/h</span></div>
+            </div>
+            <div style="background:white;border-radius:8px;padding:10px 12px;text-align:center;border:1px solid var(--border);">
+              <div style="font-size:11px;color:var(--ink-mute);margin-bottom:3px;">Pacote 10h/mês</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--ink);">R$ 450<span style="font-size:11px;font-weight:400;">/h</span></div>
+            </div>
+            <div style="background:white;border-radius:8px;padding:10px 12px;text-align:center;border:1px solid var(--border);">
+              <div style="font-size:11px;color:var(--ink-mute);margin-bottom:3px;">Pacote 20h/mês</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--ink);">R$ 400<span style="font-size:11px;font-weight:400;">/h</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-wa" class="tab-panel">
+      <div class="g2">
+        <div class="card">
+          <div class="card-title">WhatsApp — licenciamento mensal</div>
+          <table class="data-table">
+            <thead><tr><th>Item</th><th>Qtd.</th><th style="text-align:right;">Valor/mês (US$)</th></tr></thead>
+            <tbody>
+              <tr><td>Licenças HubSpot (incluso no pacote)</td><td>—</td><td style="text-align:right;">US$ 0</td></tr>
+              <tr><td>Licenças Spread.Chat</td><td>40 seats</td><td style="text-align:right;font-weight:500;color:var(--pink);">US$ 2.500</td></tr>
+              <tr><td>Mensageria Meta (50k msgs marketing)*</td><td>—</td><td style="text-align:right;font-weight:500;color:var(--pink);">US$ 3.125</td></tr>
+              <tr><td>Linha oficial WhatsApp</td><td>1</td><td style="text-align:right;">R$ 1.200</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:10px;color:var(--ink-mute);margin-top:10px;">*Simulação para 50k mensagens de marketing. Valores pagos diretamente à Meta.</p>
+        </div>
+        <div class="card">
+          <div class="card-title">Custo por tipo de mensagem Meta</div>
+          <table class="data-table">
+            <thead><tr><th>Tipo</th><th>Uso</th><th style="text-align:right;">Custo/msg</th></tr></thead>
+            <tbody>
+              <tr><td><span class="pill pill-pink">Marketing</span></td><td style="font-size:11px;">Campanhas, promoções, abandono</td><td style="text-align:right;font-weight:500;">US$ 0,063</td></tr>
+              <tr><td><span class="pill pill-blue">Utilitário</span></td><td style="font-size:11px;">Confirmações, atualizações, lembretes</td><td style="text-align:right;font-weight:500;">US$ 0,008</td></tr>
+              <tr><td><span class="pill pill-amber">Autenticação</span></td><td style="font-size:11px;">OTP, verificação de conta</td><td style="text-align:right;font-weight:500;">US$ 0,032</td></tr>
+              <tr><td><span class="pill pill-green">Serviço</span></td><td style="font-size:11px;">Atendimento, suporte ao aluno</td><td style="text-align:right;font-weight:500;">US$ 0,030</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:16px;">
+            <div class="card-title" style="margin-bottom:12px;">Funcionalidades Spread.Chat</div>
+            <div class="wa-feat">
+              <div class="wa-icon">📥</div>
+              <div><div class="wa-title">Inbox unificado no HubSpot</div><div class="wa-desc">Áudio, docs, etiquetas, transferência entre squads, histórico completo</div></div>
+            </div>
+            <div class="wa-feat">
+              <div class="wa-icon">⚡</div>
+              <div><div class="wa-title">Disparos via workflows</div><div class="wa-desc">Ação de envio dentro dos fluxos de trabalho do HubSpot por evento ou data</div></div>
+            </div>
+            <div class="wa-feat">
+              <div class="wa-icon">🤖</div>
+              <div><div class="wa-title">Chatbot conectado ao CRM</div><div class="wa-desc">Cria/atualiza contatos, distribui por squad, integra com sistemas externos</div></div>
+            </div>
+            <div class="wa-feat">
+              <div class="wa-icon">📊</div>
+              <div><div class="wa-title">Relatórios conversacionais</div><div class="wa-desc">Análise automática, métricas de campanha, gerenciamento de templates</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3. ROADMAP ── -->
+  <section class="section-wrap" id="roadmap">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Roadmap — 12 semanas ao go-live</h2>
+    </div>
+
+    <div class="g4" style="margin-bottom:20px;">
+      <div class="phase-card phase-active">
+        <div class="phase-num">Fase 1</div>
+        <div class="phase-name">Fundação</div>
+        <div class="phase-desc">Portal HubSpot ativo · Business Units e Teams · Custom Properties · Custom Object Curso · Extração e consolidação de toda a base de dados</div>
+        <div class="phase-weeks">Semanas 1–3</div>
+      </div>
+      <div class="phase-card phase-inactive">
+        <div class="phase-num">Fase 2</div>
+        <div class="phase-name">Pipelines e migração</div>
+        <div class="phase-desc">4 pipelines por BU · Cadências de inside sales · Treinamento dos squads · 100% da base migrada · WhatsApp inbox ativo</div>
+        <div class="phase-weeks">Semanas 4–6</div>
+      </div>
+      <div class="phase-card phase-inactive">
+        <div class="phase-num">Fase 3</div>
+        <div class="phase-name">Marketing e automações</div>
+        <div class="phase-desc">Forms no site · Lead Ads integrados · 4 réguas de nutrição · Lead scoring · Chatbot WhatsApp · Templates Meta aprovados</div>
+        <div class="phase-weeks">Semanas 7–9</div>
+      </div>
+      <div class="phase-card phase-inactive">
+        <div class="phase-num">Fase 4</div>
+        <div class="phase-name">CX, dashboards e go-live</div>
+        <div class="phase-desc">Service Hub · Onboarding alunos · NPS automático · Dashboards por perfil · UAT completo · Stack legada desativada</div>
+        <div class="phase-weeks">Semanas 10–12</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Cronograma detalhado</div>
+      <div class="gantt-wrap">
+        <table class="gantt" id="gantt-table">
+          <thead>
+            <tr>
+              <th style="text-align:left;min-width:180px;">Atividade</th>
+              <th colspan="3" class="phase-header" style="color:#C0166B;">Fase 1</th>
+              <th colspan="3" class="phase-header" style="color:#6B5CC8;">Fase 2</th>
+              <th colspan="3" class="phase-header" style="color:#1A7FAD;">Fase 3</th>
+              <th colspan="3" class="phase-header" style="color:#1A7B4B;">Fase 4</th>
+            </tr>
+            <tr>
+              <th style="text-align:left;">Semanas</th>
+              <th>S1</th><th>S2</th><th>S3</th>
+              <th>S4</th><th>S5</th><th>S6</th>
+              <th>S7</th><th>S8</th><th>S9</th>
+              <th>S10</th><th>S11</th><th>S12</th>
+            </tr>
+          </thead>
+          <tbody id="gantt-body"></tbody>
+        </table>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;margin-top:12px;flex-wrap:wrap;">
+        <div style="font-size:10px;color:var(--ink-mute);font-weight:500;text-transform:uppercase;letter-spacing:0.04em;">Legenda:</div>
+        <div style="display:flex;align-items:center;gap:5px;"><div style="width:16px;height:6px;border-radius:3px;background:#C0166B;opacity:0.85;"></div><span style="font-size:10px;color:var(--ink-mute);">Fase 1</span></div>
+        <div style="display:flex;align-items:center;gap:5px;"><div style="width:16px;height:6px;border-radius:3px;background:#6B5CC8;opacity:0.85;"></div><span style="font-size:10px;color:var(--ink-mute);">Fase 2</span></div>
+        <div style="display:flex;align-items:center;gap:5px;"><div style="width:16px;height:6px;border-radius:3px;background:#1A7FAD;opacity:0.85;"></div><span style="font-size:10px;color:var(--ink-mute);">Fase 3</span></div>
+        <div style="display:flex;align-items:center;gap:5px;"><div style="width:16px;height:6px;border-radius:3px;background:#1A7B4B;opacity:0.85;"></div><span style="font-size:10px;color:var(--ink-mute);">Fase 4</span></div>
+        <div style="display:flex;align-items:center;gap:5px;"><div style="width:16px;height:6px;border-radius:3px;background:#B45309;opacity:0.85;"></div><span style="font-size:10px;color:var(--ink-mute);">⚙ TI Mandic — Data Lake</span></div>
+      </div>
+    </div>
+  </section> -->
+  <section class="section-wrap" id="migracao">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Migração de dados — RD Station → HubSpot</h2>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Estratégia de segmentação</div>
+        <div class="g3" style="gap:8px;margin-bottom:16px;">
+          <div class="mig-decision mig-green">
+            <div class="mig-label">Migrar</div>
+            <div class="mig-sub">Ativos &lt;12m · Alunos do ERP</div>
+          </div>
+          <div class="mig-decision mig-amber">
+            <div class="mig-label">Revisar</div>
+            <div class="mig-sub">Inativos 12–24m · Sem BU atribuída</div>
+          </div>
+          <div class="mig-decision mig-red">
+            <div class="mig-label">Descartar</div>
+            <div class="mig-sub">Bounced hard · Sem email ou telefone</div>
+          </div>
+        </div>
+        <div class="card-title">Ordem de importação — 6 lotes</div>
+        <div class="lote-row"><div class="lote-num">1</div><span class="lote-text">Alunos ativos e formados (ERP/SIS acadêmico)</span><span class="pill pill-red" style="font-size:10px;">Urgente</span></div>
+        <div class="lote-row"><div class="lote-num">2</div><span class="lote-text">Leads com BU definida + email válido + ativos &lt;12m</span><span class="pill pill-pink" style="font-size:10px;">Alta</span></div>
+        <div class="lote-row"><div class="lote-num">3</div><span class="lote-text">Leads com BU definida + inativos 12–24m</span><span class="pill pill-amber" style="font-size:10px;">Média</span></div>
+        <div class="lote-row"><div class="lote-num">4</div><span class="lote-text">Leads sem BU — enriquecidos na fase de higienização</span><span class="pill pill-amber" style="font-size:10px;">Média</span></div>
+        <div class="lote-row"><div class="lote-num">5</div><span class="lote-text">Contatos de planilhas e CRM legado (Rubeus)</span><span class="pill pill-gray" style="font-size:10px;">Baixa</span></div>
+        <div class="lote-row" style="border:none;"><div class="lote-num">6</div><span class="lote-text">Revisão manual de possíveis duplicatas</span><span class="pill pill-gray" style="font-size:10px;">Pós go-live</span></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="card">
+          <div class="card-title">Hierarquia de confiança das fontes</div>
+          <table class="data-table">
+            <thead><tr><th>#</th><th>Fonte</th><th>Confiança</th><th>Regra</th></tr></thead>
+            <tbody>
+              <tr><td style="font-weight:700;color:var(--pink);">1ª</td><td>ERP / SIS Acadêmico</td><td><span class="pill pill-green">Alta</span></td><td style="font-size:11px;color:var(--ink-mute);">Nunca sobrescrever</td></tr>
+              <tr><td style="font-weight:700;color:var(--pink);">2ª</td><td>RD Station</td><td><span class="pill pill-blue">Média</span></td><td style="font-size:11px;color:var(--ink-mute);">Email, BU, produto</td></tr>
+              <tr><td style="font-weight:700;color:var(--pink);">3ª</td><td>Rubeus (CRM legado)</td><td><span class="pill pill-amber">Média-baixa</span></td><td style="font-size:11px;color:var(--ink-mute);">Histórico de vendas</td></tr>
+              <tr><td style="font-weight:700;color:var(--pink);">4ª</td><td>Planilhas</td><td><span class="pill pill-gray">Baixa</span></td><td style="font-size:11px;color:var(--ink-mute);">Apenas gaps</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-title">Metas de sucesso da migração</div>
+          <div class="cost-row"><span class="cost-item">Contatos com email válido</span><span class="cost-amount">&gt; 85%</span></div>
+          <div class="cost-row"><span class="cost-item">Contatos com BU atribuída</span><span class="cost-amount">&gt; 90%</span></div>
+          <div class="cost-row"><span class="cost-item">Duplicatas residuais (30 dias)</span><span class="cost-amount">&lt; 1%</span></div>
+          <div class="cost-row"><span class="cost-item">Alunos ERP classificados corretamente</span><span class="cost-amount">100%</span></div>
+          <div class="cost-row" style="border:none;"><span class="cost-item">Leads reengajados pós-migração (4 sem.)</span><span class="cost-amount">&gt; 5%</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 5. DATA LAKE ── -->
+  <section class="section-wrap" id="datalake">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Premissa de arquitetura — Data Lake / Data Warehouse</h2>
+    </div>
+
+    <!-- Architecture rationale banner -->
+    <div style="background:var(--ink);border-radius:var(--radius);padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-60px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(192,22,107,0.15) 0%,transparent 70%);pointer-events:none;"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="font-size:11px;font-weight:600;color:var(--pink-mid);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">Premissa técnica crítica · Responsabilidade: TI Mandic</div>
+        <p style="font-size:15px;font-weight:500;color:white;line-height:1.6;margin-bottom:12px;">Toda a stack — HubSpot, ERP/SIS, WhatsApp, ZenDesk e futuras ferramentas — deve ser plugada em uma camada centralizada de dados (Data Lake ou Data Warehouse) antes de qualquer integração ponto-a-ponto direta entre sistemas.</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;">Sem esse hub central, cada nova ferramenta adicionada cria integrações em espaguete: N sistemas falando diretamente com N sistemas, sem rastreabilidade, sem histórico consolidado e sem flexibilidade para trocar peças no futuro.</p>
+      </div>
+    </div>
+
+    <!-- The problem: spaghetti vs. hub -->
+    <div class="g2" style="margin-bottom:20px;">
+      <div class="card" style="border-color:var(--red-bg);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;"></div>
+          <div class="card-title" style="margin:0;color:var(--red);">Sem Data Lake — integração espaguete</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;">
+          <div style="background:var(--red-bg);border-radius:var(--radius-sm);padding:8px 10px;font-size:11px;font-weight:500;color:var(--red);text-align:center;">HubSpot</div>
+          <div style="background:var(--red-bg);border-radius:var(--radius-sm);padding:8px 10px;font-size:11px;font-weight:500;color:var(--red);text-align:center;">ERP / SIS</div>
+          <div style="background:var(--red-bg);border-radius:var(--radius-sm);padding:8px 10px;font-size:11px;font-weight:500;color:var(--red);text-align:center;">WhatsApp</div>
+          <div style="background:var(--red-bg);border-radius:var(--radius-sm);padding:8px 10px;font-size:11px;font-weight:500;color:var(--red);text-align:center;">ZenDesk</div>
+        </div>
+        <div style="font-size:11px;color:var(--ink-mute);line-height:1.6;border-top:1px solid var(--border);padding-top:12px;">
+          Cada sistema chama API de todos os outros diretamente. 4 ferramentas = até <strong style="color:var(--ink);">12 conexões ponto-a-ponto</strong>. Qualquer mudança de credencial, schema ou versão de API quebra múltiplas integrações simultaneamente. Sem histórico consolidado, sem observabilidade, sem dados confiáveis para analytics.
+        </div>
+      </div>
+
+      <div class="card" style="border-color:var(--green);">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+          <div class="card-title" style="margin:0;color:var(--green);">Com Data Lake — hub centralizado</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:12px;flex-wrap:wrap;gap:6px;">
+          <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;">
+            <div style="background:var(--green-bg);border-radius:var(--radius-sm);padding:6px 10px;font-size:10px;font-weight:500;color:var(--green);">HubSpot</div>
+            <div style="background:var(--green-bg);border-radius:var(--radius-sm);padding:6px 10px;font-size:10px;font-weight:500;color:var(--green);">ERP / SIS</div>
+            <div style="background:var(--green-bg);border-radius:var(--radius-sm);padding:6px 10px;font-size:10px;font-weight:500;color:var(--green);">WhatsApp</div>
+            <div style="background:var(--green-bg);border-radius:var(--radius-sm);padding:6px 10px;font-size:10px;font-weight:500;color:var(--green);">ZenDesk</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;margin:0 10px;">
+            <div style="font-size:18px;color:var(--green);line-height:1;">⇄</div>
+          </div>
+          <div style="background:var(--ink);border-radius:var(--radius-sm);padding:14px 16px;text-align:center;min-width:90px;">
+            <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--pink-mid);">Data Lake</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;">hub central</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;margin:0 10px;">
+            <div style="font-size:18px;color:var(--green);line-height:1;">⇄</div>
+          </div>
+          <div style="background:var(--blue-bg);border-radius:var(--radius-sm);padding:14px 16px;text-align:center;min-width:90px;">
+            <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--blue);">Analytics</div>
+            <div style="font-size:10px;color:var(--blue);opacity:0.7;margin-top:2px;">dashboards · BI</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--ink-mute);line-height:1.6;border-top:1px solid var(--border);padding-top:12px;">
+          Cada sistema fala apenas com o Data Lake. <strong style="color:var(--ink);">4 conexões no total</strong>, independente de quantas ferramentas existam. Troca de ferramenta = reconectar 1 ponto, não N. Histórico completo, observabilidade e base para analytics confiável.
+        </div>
+      </div>
+    </div>
+
+    <!-- What goes where -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-title">Responsabilidades por sistema — o que vive onde</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Sistema</th>
+            <th>Fonte de verdade para</th>
+            <th>NÃO é fonte de verdade para</th>
+            <th>Fluxo de dados</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>ERP / SIS Acadêmico</strong></td>
+            <td>Matrícula confirmada · situação acadêmica · financeiro · notas · CPF · curso cursado</td>
+            <td>Histórico de captação · engajamento de marketing · jornada de lead</td>
+            <td><span class="pill pill-blue" style="font-size:10px;">ERP → Data Lake → HubSpot</span></td>
+          </tr>
+          <tr>
+            <td><strong>HubSpot CRM</strong></td>
+            <td>Jornada de captação · pipeline · engajamento · lead scoring · histórico de relacionamento</td>
+            <td>Dados financeiros · notas · situação acadêmica oficial</td>
+            <td><span class="pill pill-pink" style="font-size:10px;">HubSpot → Data Lake → Analytics</span></td>
+          </tr>
+          <tr>
+            <td><strong>WhatsApp / Spread.Chat</strong></td>
+            <td>Histórico de conversas · templates enviados · métricas de mensageria</td>
+            <td>Dados de perfil · situação acadêmica · pipeline comercial</td>
+            <td><span class="pill pill-amber" style="font-size:10px;">WhatsApp → Data Lake → HubSpot</span></td>
+          </tr>
+          <tr>
+            <td><strong>ZenDesk (CX)</strong></td>
+            <td>Tickets abertos · SLAs · histórico de atendimento ao aluno</td>
+            <td>Captação · marketing · dados acadêmicos</td>
+            <td><span class="pill pill-gray" style="font-size:10px;">ZenDesk → Data Lake → Analytics</span></td>
+          </tr>
+          <tr>
+            <td><strong>Data Lake / DW</strong></td>
+            <td>Visão 360° consolidada · histórico cross-sistema · base para BI e analytics</td>
+            <td>Operação transacional — não é sistema de registro de vendas ou matrícula</td>
+            <td><span class="pill pill-green" style="font-size:10px;">Hub central de todos os fluxos</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TI Mandic responsibilities -->
+    <div class="g2">
+      <div class="card" style="border-left:3px solid var(--red);">
+        <div class="card-title" style="color:var(--red);">Escopo de responsabilidade — TI Mandic</div>
+        <div class="risk-item">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-high"></div></div>
+          <div>
+            <div class="risk-title">Definir e provisionar a camada de Data Lake / DW</div>
+            <div class="risk-desc">Escolha da tecnologia (ex: BigQuery, Redshift, Databricks, Azure Synapse), provisionamento de ambiente e definição do modelo de dados consolidado. Decisão a ser tomada antes da Semana 1 do projeto CRM.</div>
+          </div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-high"></div></div>
+          <div>
+            <div class="risk-title">Desenvolver conectores ERP → Data Lake</div>
+            <div class="risk-desc">Pipelines de ingestão dos dados do SIS acadêmico (matrículas, situação, financeiro) com frequência definida (tempo real ou batch). Sem isso, o HubSpot não recebe confirmações de matrícula automaticamente.</div>
+          </div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-med"></div></div>
+          <div>
+            <div class="risk-title">Desenvolver APIs HubSpot ↔ Data Lake</div>
+            <div class="risk-desc">Protocolo REST fornecido pela Mkt4edu/HubSpot. TI Mandic é responsável pelo desenvolvimento, teste e manutenção. Entregar dentro do cronograma do projeto (Fase 2, Semanas 4–6).</div>
+          </div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-med"></div></div>
+          <div>
+            <div class="risk-title">Conectar ZenDesk e WhatsApp ao Data Lake</div>
+            <div class="risk-desc">Garantir que histórico de atendimento (ZenDesk) e conversas (Spread.Chat) sejam ingeridos no Data Lake para correlação com a jornada do aluno no HubSpot.</div>
+          </div>
+        </div>
+        <div class="risk-item" style="border:none;padding-bottom:0;">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-low"></div></div>
+          <div>
+            <div class="risk-title">Definir camada de Analytics / BI sobre o Data Lake</div>
+            <div class="risk-desc">Ferramenta de BI (ex: Looker, Power BI, Metabase) conectada ao DW para dashboards institucionais que cruzem dados de múltiplas fontes além do que o HubSpot nativo oferece.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="card">
+          <div class="card-title">Critérios para escolha da tecnologia</div>
+          <div class="cost-row"><span class="cost-item">Suporte a conectores nativos (ERP, HubSpot, ZenDesk)</span><span class="cost-amount" style="color:var(--green);">Obrigatório</span></div>
+          <div class="cost-row"><span class="cost-item">Capacidade de ingestão batch e near-real-time</span><span class="cost-amount" style="color:var(--green);">Obrigatório</span></div>
+          <div class="cost-row"><span class="cost-item">Controle de acesso por perfil (LGPD)</span><span class="cost-amount" style="color:var(--green);">Obrigatório</span></div>
+          <div class="cost-row"><span class="cost-item">Histórico completo de alterações (data versioning)</span><span class="cost-amount" style="color:var(--green);">Obrigatório</span></div>
+          <div class="cost-row"><span class="cost-item">Suporte a SQL para consultas de Analytics</span><span class="cost-amount" style="color:var(--amber);">Recomendado</span></div>
+          <div class="cost-row" style="border:none;"><span class="cost-item">Interface para equipe de dados não-técnica</span><span class="cost-amount" style="color:var(--amber);">Recomendado</span></div>
+        </div>
+
+        <div class="card" style="background:var(--amber-bg);border-color:var(--amber);">
+          <div class="card-title" style="color:var(--amber);">Atenção — impacto no roadmap</div>
+          <p style="font-size:12px;color:var(--ink-soft);line-height:1.6;margin-bottom:10px;">A definição da arquitetura de Data Lake pela TI Mandic é <strong>pré-requisito para o kickoff</strong>. As APIs de integração desenvolvidas na Fase 2 (Semanas 4–6) devem se conectar ao Data Lake, não diretamente entre sistemas.</p>
+          <p style="font-size:12px;color:var(--ink-soft);line-height:1.6;margin-bottom:10px;">Se o Data Lake não estiver definido até a Semana 1, o projeto de CRM pode avançar com automações e pipelines internos ao HubSpot, mas as integrações com ERP e sistemas externos precisarão ser refeitas depois — gerando retrabalho e custo adicional.</p>
+          <div style="background:white;border-radius:var(--radius-sm);padding:10px 12px;">
+            <div style="font-size:11px;font-weight:500;color:var(--amber);margin-bottom:4px;">Recomendação</div>
+            <div style="font-size:11px;color:var(--ink-mute);line-height:1.5;">TI Mandic deve apresentar uma decisão de arquitetura (tecnologia + modelo de dados) até o final da Semana 1 do projeto, participando ativamente das reuniões de especificação de requisitos (Fase 1, etapa 2).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6. RISCOS ── -->
+  <section class="section-wrap" id="riscos">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Riscos, premissas e próximos passos</h2>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Riscos e premissas críticas</div>
+        <div class="risk-item" style="background:rgba(185,28,28,0.04);border-radius:var(--radius-sm);padding:10px;margin-bottom:2px;border-left:3px solid var(--red);">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-high"></div></div>
+          <div>
+            <div class="risk-title" style="color:var(--red);">Data Lake — decisão de arquitetura antes do kickoff <span style="font-size:10px;font-weight:400;color:var(--ink-mute);">· TI Mandic</span></div>
+            <div class="risk-desc">Definir tecnologia e modelo de dados até a Semana 1. Integrações da Fase 2 devem se conectar ao hub central, não ponto-a-ponto. Atraso gera retrabalho nas APIs e pode comprometer o go-live.</div>
+          </div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-high"></div></div>
+          <div><div class="risk-title">Admin HubSpot interno dedicado</div><div class="risk-desc">Nomear profissional com mín. 20h/semana durante a implantação. Sem isso, o projeto perde velocidade em todas as fases.</div></div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-high"></div></div>
+          <div><div class="risk-title">Acesso ao ERP e RD Station na Semana 1</div><div class="risk-desc">Sem a exportação completa dos dados, a migração trava toda a Fase 2 e compromete o go-live na Semana 12.</div></div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-med"></div></div>
+          <div><div class="risk-title">APIs ERP → Data Lake → HubSpot</div><div class="risk-desc">Responsabilidade da TI Mandic. Protocolo REST fornecido pela Mkt4edu. A integração deve passar pelo Data Lake, não direto entre ERP e HubSpot.</div></div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-med"></div></div>
+          <div><div class="risk-title">Volume de duplicatas acima do esperado</div><div class="risk-desc">Pode estender a Fase B em até 1 semana. Mitigação: priorizar deduplicação automatizada por email antes das regras manuais.</div></div>
+        </div>
+        <div class="risk-item">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-low"></div></div>
+          <div><div class="risk-title">Conta Meta Business verificada</div><div class="risk-desc">Pré-requisito para ativação do WhatsApp Business API. Iniciar o processo imediatamente.</div></div>
+        </div>
+        <div class="risk-item" style="padding-bottom:0;border-bottom:none;">
+          <div class="risk-dot-wrap"><div class="risk-dot risk-low"></div></div>
+          <div><div class="risk-title">Validade do desconto na implantação</div><div class="risk-desc">Desconto comercial expirou em 31/03/26. Confirmar com Mkt4edu antes de assinar o SOW.</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Próximos passos imediatos</div>
+        <div class="steps-grid" style="grid-template-columns:1fr;">
+          <div class="step-item" style="border-color:var(--red);background:var(--red-bg);">
+            <div class="step-num-circle" style="background:var(--red);">0</div>
+            <div class="step-text"><strong style="color:var(--ink);">TI Mandic:</strong> Iniciar definição da arquitetura de Data Lake / DW — tecnologia, modelo de dados e cronograma. Apresentar decisão até o final da Semana 1 do projeto.</div>
+          </div>
+          <div class="step-item">
+            <div class="step-num-circle">1</div>
+            <div class="step-text">Aprovação interna do plano e definição do budget pela diretoria</div>
+          </div>
+          <div class="step-item">
+            <div class="step-num-circle">2</div>
+            <div class="step-text">Confirmar contrato HubSpot 36 meses e assinar SOW com Mkt4edu — validar desconto de implantação</div>
+          </div>
+          <div class="step-item">
+            <div class="step-num-circle">3</div>
+            <div class="step-text">Nomear HubSpot Admin interno e sponsor executivo do projeto</div>
+          </div>
+          <div class="step-item">
+            <div class="step-num-circle">4</div>
+            <div class="step-text">Confirmar conta Meta Business verificada para ativação do WhatsApp Business API</div>
+          </div>
+          <div class="step-item">
+            <div class="step-num-circle">5</div>
+            <div class="step-text">Solicitar exportação completa do RD Station e do ERP/SIS acadêmico (deve estar pronto na Semana 1)</div>
+          </div>
+          <div class="step-item">
+            <div class="step-num-circle">6</div>
+            <div class="step-text">Agendar reunião de kickoff com todos os stakeholders — incluindo TI para apresentação da decisão de arquitetura de dados</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      Preparado por <strong>Gustavo Gonçalves</strong> · Mkt4edu | 4RevOps · <a href="https://home.mkt4edu.com" style="color:var(--pink-mid);text-decoration:none;">home.mkt4edu.com</a>
+    </div>
+    <div class="footer-conf">
+      Documento confidencial · uso exclusivo São Leopoldo Mandic<br>
+      Versão 4.0 · Custos e papéis corrigidos · Abril 2026
+    </div>
+  </div>
+</footer>
+
+<script>
+function scrollTo(id) {
+  document.querySelector(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function switchTab(id, btn, e) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  e.target.classList.add('active');
+}
+
+// Gantt
+const ganttRows = [
+  { label: "⚙ Decisão arquitetura Data Lake (TI)", start: 1, end: 1, phase: 5 },
+  { label: "Setup portal HubSpot", start: 1, end: 2, phase: 1 },
+  { label: "BUs, Teams e permissões", start: 1, end: 2, phase: 1 },
+  { label: "Custom Properties e objetos", start: 2, end: 3, phase: 1 },
+  { label: "Extração e consolidação de dados", start: 1, end: 3, phase: 1 },
+  { label: "Higienização e deduplicação", start: 2, end: 4, phase: 2 },
+  { label: "4 Pipelines por BU", start: 4, end: 5, phase: 2 },
+  { label: "Treinamento squads (SDR + EV)", start: 5, end: 6, phase: 2 },
+  { label: "Migração de dados (lotes 1–5)", start: 4, end: 6, phase: 2 },
+  { label: "WhatsApp inbox ativo", start: 6, end: 7, phase: 2 },
+  { label: "⚙ Dev APIs: ERP → Data Lake → HubSpot (TI)", start: 4, end: 8, phase: 5 },
+  { label: "Forms no site + Lead Ads", start: 7, end: 8, phase: 3 },
+  { label: "Réguas de nutrição e Lead Scoring", start: 7, end: 9, phase: 3 },
+  { label: "Chatbot WhatsApp + templates Meta", start: 8, end: 10, phase: 3 },
+  { label: "⚙ Conectar ZenDesk/WhatsApp ao DL (TI)", start: 8, end: 10, phase: 5 },
+  { label: "Service Hub + tickets + SLAs", start: 10, end: 11, phase: 4 },
+  { label: "Onboarding alunos + NPS", start: 10, end: 11, phase: 4 },
+  { label: "Dashboards por perfil", start: 10, end: 11, phase: 4 },
+  { label: "UAT completo", start: 11, end: 12, phase: 4 },
+  { label: "GO-LIVE", start: 12, end: 12, phase: 0 },
+];
+const phaseColors = { 1: '#C0166B', 2: '#6B5CC8', 3: '#1A7FAD', 4: '#1A7B4B', 0: '#C0166B', 5: '#B45309' };
+const tbody = document.getElementById('gantt-body');
+ganttRows.forEach(row => {
+  const tr = document.createElement('tr');
+  const isGoLive = row.label === 'GO-LIVE';
+  const labelTd = document.createElement('td');
+  labelTd.className = 'row-label';
+  labelTd.style.fontWeight = isGoLive ? '600' : '400';
+  labelTd.style.color = isGoLive ? '#C0166B' : '';
+  labelTd.textContent = row.label;
+  tr.appendChild(labelTd);
+  for (let w = 1; w <= 12; w++) {
+    const td = document.createElement('td');
+    const inRange = w >= row.start && w <= row.end;
+    if (inRange) {
+      const bar = document.createElement('div');
+      bar.className = 'bar-cell';
+      const fill = document.createElement('div');
+      fill.className = 'gantt-bar' + (isGoLive ? ' go-live' : '');
+      fill.style.background = phaseColors[row.phase];
+      if (w === row.start) fill.style.borderRadius = w === row.end ? '4px' : '4px 0 0 4px';
+      else if (w === row.end) fill.style.borderRadius = '0 4px 4px 0';
+      else fill.style.borderRadius = '0';
+      bar.appendChild(fill);
+      td.appendChild(bar);
+      setTimeout(() => fill.classList.add('visible'), 400);
+    }
+    tr.appendChild(td);
+  }
+  tbody.appendChild(tr);
+});
+
+// Donut Chart
+const donutData = [
+  { label: 'Licença HubSpot', value: 718594, color: '#C0166B' },
+  { label: 'WhatsApp (anual)', value: 369450, color: '#6B5CC8' },
+  { label: 'Implantação', value: 336000, color: '#1A7FAD' },
+  { label: 'Migração + Inscrição', value: 96705, color: '#1A7B4B' },
+  { label: 'Linha WA', value: 14400, color: '#E8528F' },
+];
+const canvas = document.getElementById('donut');
+const ctx = canvas.getContext('2d');
+const cx = 130, cy = 130, r = 100, inner = 60;
+const total = donutData.reduce((s, d) => s + d.value, 0);
+let angle = -Math.PI / 2;
+donutData.forEach(d => {
+  const sweep = (d.value / total) * 2 * Math.PI;
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.arc(cx, cy, r, angle, angle + sweep);
+  ctx.closePath();
+  ctx.fillStyle = d.color;
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(cx, cy, inner, 0, 2 * Math.PI);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
+  angle += sweep;
+});
+ctx.textAlign = 'center';
+ctx.fillStyle = '#0F0A1A';
+ctx.font = '700 18px Syne, sans-serif';
+ctx.fillText('R$ 1,54M', cx, cy - 4);
+ctx.font = '400 11px DM Sans, sans-serif';
+ctx.fillStyle = '#6B6280';
+ctx.fillText('Total Ano 1', cx, cy + 14);
+
+const legend = document.getElementById('donut-legend');
+donutData.forEach(d => {
+  const pct = Math.round((d.value / total) * 100);
+  const row = document.createElement('div');
+  row.style.cssText = 'display:flex;align-items:center;gap:8px;font-size:12px;';
+  row.innerHTML = `<div style="width:10px;height:10px;border-radius:50%;background:${d.color};flex-shrink:0;"></div><span style="flex:1;color:#2D2440;">${d.label}</span><span style="font-weight:500;color:#0F0A1A;">${pct}%</span>`;
+  legend.appendChild(row);
+});
+
+// Nav active state on scroll
+const sections = ['stack','investimento','roadmap','migracao','riscos'];
+const labels = ['Stack','Investimento','Roadmap','Migração','Riscos'];
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY + 100;
+  sections.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    const bottom = top + el.offsetHeight;
+    const btns = document.querySelectorAll('.nav-btn');
+    if (scrollY >= top && scrollY < bottom) {
+      btns.forEach(b => b.classList.remove('active'));
+      if (btns[i]) btns[i].classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>
