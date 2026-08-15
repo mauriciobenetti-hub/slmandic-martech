@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MBA IA — Painel do Módulo 01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d2138;          /* navy do curso */
+  --ink-2:#1b3a5c;
+  --paper:#f5f7f9;
+  --card:#ffffff;
+  --amber:#f2b32c;        /* âmbar dos slides */
+  --amber-soft:#fdf3d7;
+  --teal:#0e7f7a;
+  --line:#dde4ea;
+  --muted:#5b6b7c;
+  --danger:#c0392b;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  font-size:15.5px;
+  line-height:1.6;
+}
+a{color:var(--teal)}
+.mono{font-family:'IBM Plex Mono',monospace}
+
+/* ---------- layout ---------- */
+.app{display:grid;grid-template-columns:296px 1fr;min-height:100vh}
+.sidebar{
+  background:var(--ink);
+  color:#e9eef4;
+  padding:28px 0 40px;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.main{padding:34px 44px 90px;max-width:980px}
+
+/* ---------- sidebar ---------- */
+.brand{padding:0 24px 22px;border-bottom:1px solid rgba(255,255,255,.12)}
+.brand .eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--amber);margin-bottom:6px;
+}
+.brand h1{
+  font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;line-height:1.3;color:#fff;
+}
+.brand p{font-size:12.5px;color:#9fb0c1;margin-top:6px}
+
+.phase{margin-top:20px}
+.phase-label{
+  display:flex;align-items:center;gap:8px;
+  padding:0 24px;margin-bottom:6px;
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--amber);
+}
+.phase-label::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.12)}
+.lesson-btn{
+  display:flex;align-items:flex-start;gap:11px;width:100%;
+  padding:9px 24px;background:none;border:none;cursor:pointer;
+  color:#c8d4df;text-align:left;font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;line-height:1.35;
+  border-left:3px solid transparent;transition:background .15s,border-color .15s,color .15s;
+}
+.lesson-btn:hover{background:rgba(255,255,255,.06);color:#fff}
+.lesson-btn.active{background:rgba(242,179,44,.13);border-left-color:var(--amber);color:#fff}
+.lesson-btn .num{
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--amber);
+  min-width:20px;padding-top:1px;
+}
+.lesson-btn .check{margin-left:auto;font-size:12px;color:var(--teal);opacity:0;transform:scale(.6);transition:all .2s}
+.lesson-btn.done .check{opacity:1;transform:scale(1);color:#7ed3ad}
+
+.progress-wrap{padding:22px 24px 0}
+.progress-label{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#9fb0c1;margin-bottom:8px;display:flex;justify-content:space-between}
+.progress-bar{height:6px;background:rgba(255,255,255,.14);border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--amber),#f8cf6d);border-radius:99px;transition:width .4s ease}
+
+/* ---------- header / search ---------- */
+.topbar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:26px}
+.search{
+  flex:1;min-width:240px;display:flex;align-items:center;gap:10px;
+  background:var(--card);border:1.5px solid var(--line);border-radius:99px;padding:10px 18px;
+  transition:border-color .15s, box-shadow .15s;
+}
+.search:focus-within{border-color:var(--ink);box-shadow:0 2px 12px rgba(13,33,56,.08)}
+.search svg{flex:none;opacity:.45}
+.search input{border:none;outline:none;background:none;font:inherit;width:100%;color:var(--ink)}
+.presencial-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.06em;
+  background:var(--amber-soft);border:1.5px solid var(--amber);color:#7a5a10;
+  padding:8px 14px;border-radius:99px;white-space:nowrap;
+}
+
+/* ---------- vital signs strip ---------- */
+.vitals{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:34px}
+.vital{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 16px;position:relative;overflow:hidden;
+}
+.vital::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--amber)}
+.vital .v-num{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;line-height:1.1}
+.vital .v-desc{font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.35}
+.vital .v-src{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#a5b1bd;margin-top:5px;text-transform:uppercase;letter-spacing:.08em}
+
+/* ---------- lesson content ---------- */
+.lesson{display:none;animation:fadeUp .35s ease}
+.lesson.visible{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.lesson{animation:none}}
+
+.lesson-head{margin-bottom:22px}
+.lesson-head .eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--teal);margin-bottom:8px;display:flex;align-items:center;gap:10px;
+}
+.lesson-head h2{
+  font-family:'Space Grotesk',sans-serif;font-size:29px;font-weight:700;line-height:1.2;
+  letter-spacing:-.01em;max-width:720px;
+}
+.lesson-head .lede{color:var(--muted);margin-top:10px;max-width:700px}
+.lesson-actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font:inherit;font-size:13.5px;font-weight:500;
+  padding:9px 16px;border-radius:99px;cursor:pointer;text-decoration:none;
+  border:1.5px solid var(--ink);transition:all .15s;
+}
+.btn-solid{background:var(--ink);color:#fff}
+.btn-solid:hover{background:var(--ink-2)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-ghost:hover{background:var(--amber-soft);border-color:var(--amber)}
+.btn-ghost.done{background:var(--amber);border-color:var(--amber);color:var(--ink)}
+
+.blocks{display:grid;gap:14px}
+.block{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;
+}
+.block summary{
+  list-style:none;cursor:pointer;padding:16px 20px;display:flex;align-items:center;gap:12px;
+  font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15.5px;
+}
+.block summary::-webkit-details-marker{display:none}
+.block summary .tag{
+  font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--amber-soft);color:#7a5a10;border-radius:6px;padding:3px 8px;flex:none;
+}
+.block summary .chev{margin-left:auto;transition:transform .2s;color:var(--muted);flex:none}
+.block[open] summary .chev{transform:rotate(90deg)}
+.block[open] summary{border-bottom:1px dashed var(--line)}
+.block-body{padding:16px 20px 20px;color:#33465a}
+.block-body p{margin-bottom:10px}
+.block-body p:last-child{margin-bottom:0}
+.block-body ul{margin:4px 0 10px 18px}
+.block-body li{margin-bottom:6px}
+.block-body strong{color:var(--ink)}
+.block-body table{width:100%;border-collapse:collapse;font-size:14px;margin:6px 0 10px}
+.block-body th{
+  text-align:left;font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--muted);padding:7px 10px;border-bottom:2px solid var(--ink);
+}
+.block-body td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.callout{
+  background:var(--amber-soft);border-left:4px solid var(--amber);
+  border-radius:0 10px 10px 0;padding:12px 16px;margin-top:6px;font-size:14px;
+}
+.callout .c-label{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#7a5a10;display:block;margin-bottom:4px}
+.quote{
+  font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;color:var(--ink);
+  border-left:4px solid var(--teal);padding:4px 0 4px 16px;margin:8px 0;
+}
+mark{background:var(--amber);color:var(--ink);border-radius:3px;padding:0 2px}
+
+/* levels rail (aula 7) */
+.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:8px 0 4px}
+.level{
+  background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center;position:relative;
+}
+.level .l-n{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--teal)}
+.level .l-t{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;margin:2px 0}
+.level .l-d{font-size:11px;color:var(--muted);line-height:1.35}
+.level:nth-child(4),.level:nth-child(5){border-color:var(--amber);background:var(--amber-soft)}
+
+.empty-state{display:none;text-align:center;padding:70px 20px;color:var(--muted)}
+.empty-state.visible{display:block}
+.empty-state .big{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;color:var(--ink);margin-bottom:6px}
+
+.search-hits{display:none;margin-bottom:20px}
+.search-hits.visible{display:block}
+.hit{
+  display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);
+  border-radius:12px;padding:14px 18px;margin-bottom:10px;cursor:pointer;font:inherit;transition:border-color .15s;
+}
+.hit:hover{border-color:var(--amber)}
+.hit .h-lesson{font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--teal);margin-bottom:3px}
+.hit .h-text{font-size:13.5px;color:#33465a}
+
+footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+
+/* ---------- mobile ---------- */
+.menu-toggle{display:none}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;z-index:40;width:280px;transform:translateX(-100%);transition:transform .25s ease;box-shadow:8px 0 30px rgba(0,0,0,.25)}
+  .sidebar.open{transform:none}
+  .main{padding:22px 18px 80px}
+  .menu-toggle{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--ink);color:#fff;border:none;border-radius:99px;
+    padding:10px 16px;font:inherit;font-size:13.5px;cursor:pointer;
+  }
+  .lesson-head h2{font-size:23px}
+  .levels{grid-template-columns:1fr 1fr}
+}
+button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--amber);outline-offset:2px;border-radius:6px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ============ SIDEBAR ============ -->
+<nav class="sidebar" id="sidebar" aria-label="Aulas do módulo">
+  <div class="brand">
+    <div class="eyebrow">MBA · Gestão Educacional em Saúde e IA</div>
+    <h1>Módulo 01<br>Empresa AI-Centric e Agêntica</h1>
+    <p>Painel de revisão para o encontro presencial</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Revisão</span><span id="progressText">0/10</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-label">Compreender · 1–3</div>
+    <button class="lesson-btn" data-target="a1"><span class="num">01</span><span>IA como Arquitetura</span><span class="check">✔</span></button>
+    <button class="lesson-btn" data-target="a2"><span class="num">02</span><span>Três Estágios de Maturidade</span><span class="check">✔</span></button>
+    <button class="lesson-btn" data-target="a3"><span class="num">03</span><span>Casos: Amazon, Klarna, Morgan Stanley</span><span class="check">✔</span></button>
+  </div>
+  <div class="phase">
+    <div class="phase-label">Analisar · 4–6</div>
+    <button class="lesson-btn" data-target="a4"><span class="num">04</span><span>Anatomia de um Agente</span><span class="check">✔</span></button>
+    <button class="lesson-btn" data-target="a5"><span class="num">05</span><span>Multi-Agente, Ferramentas e MCP</span><span class="check">✔</span></button>
+    <button class="lesson-btn" data-target="a6"><span class="num">06</span><span>Quando o Agente Faz Sentido</span><span class="check">✔</span></button>
+  </div>
+  <div class="phase">
+    <div class="phase-label">Aplicar · 7–8</div>
+    <button class="lesson-btn" data-target="a7"><span class="num">07</span><span>Espectro de Autonomia</span><span class="check">✔</span></button>
+    <button class="lesson-btn" data-target="a8"><span class="num">08</span><span>Redesenho de Workflow</span><span class="check">✔</span></button>
+  </div>
+  <div class="phase">
+    <div class="phase-label">Projetar · 9–10</div>
+    <button class="lesson-btn" data-target="a9"><span class="num">09</span><span>Cérebro Digital: RAG e Memória</span><span class="check">✔</span></button>
+    <button class="lesson-btn" data-target="a10"><span class="num">10</span><span>Governança e Vantagem Competitiva</span><span class="check">✔</span></button>
+  </div>
+</nav>
+
+<!-- ============ MAIN ============ -->
+<main class="main">
+  <div class="topbar">
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu de aulas">☰ Aulas</button>
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="search" id="searchInput" placeholder="Buscar conceito, caso, número… (ex: MCP, Klarna, 70-20-10)" aria-label="Buscar no módulo">
+    </div>
+    <span class="presencial-tag">Presencial · final de agosto</span>
+  </div>
+
+  <!-- vitals -->
+  <div class="vitals" id="vitals">
+    <div class="vital"><div class="v-num">88% <span style="font-size:14px;color:var(--danger)">vs 7%</span></div><div class="v-desc">usam IA vs. obtêm resultado positivo</div><div class="v-src">Aula 02</div></div>
+    <div class="vital"><div class="v-num">70·20·10</div><div class="v-desc">pessoas/processos · tecnologia · algoritmo (BCG)</div><div class="v-src">Aula 02</div></div>
+    <div class="vital"><div class="v-num">95%</div><div class="v-desc">dos pilotos falham por não revisar arquitetura</div><div class="v-src">Aula 02</div></div>
+    <div class="vital"><div class="v-num">79%</div><div class="v-desc">das falhas multi-agente vêm de especificação ruim</div><div class="v-src">Aula 05</div></div>
+    <div class="vital"><div class="v-num">40%</div><div class="v-desc">dos projetos de agentes serão cancelados sem governança</div><div class="v-src">Aula 10</div></div>
+  </div>
+
+  <div class="search-hits" id="searchHits" aria-live="polite"></div>
+  <div class="empty-state" id="emptyState">
+    <div class="big">Nada encontrado</div>
+    <p>Tente outro termo — ex.: "guardrails", "RAG", "Amazon", "tokens".</p>
+  </div>
+
+  <!-- ================= AULA 01 ================= -->
+  <section class="lesson" id="a1" data-title="Aula 01 · IA como Arquitetura">
+    <div class="lesson-head">
+      <div class="eyebrow">Aula 01 · Compreender</div>
+      <h2>IA como Arquitetura: do uso instrumental à transformação organizacional</h2>
+      <p class="lede">A IA generativa chegou para todos ao mesmo tempo — virou commodity. O diferencial não é ter a ferramenta (R$100/mês dá acesso aos melhores modelos), é saber reconstruir o formato de trabalho com ela.</p>
+      <div class="lesson-actions">
+        <a class="btn btn-solid" href="https://notes.granola.ai/t/c4de886a-10cd-44f0-b196-b9ab0ee6c3e8" target="_blank" rel="noopener">▶ Transcrição da aula</a>
+        <button class="btn btn-ghost mark-btn" data-lesson="a1">Marcar como revisada</button>
+      </div>
+    </div>
+    <div class="blocks">
+      <details class="block" open>
+        <summary><span class="tag">Conceito central</span> Atalho vs. Arquitetura <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p><strong>Atalho:</strong> faz as mesmas coisas mais rápido, sem mudar o fluxo. Válido como fase de transição (agentes transitórios cobrem o trabalho atual enquanto a arquitetura é redesenhada).</p>
+          <p><strong>Arquitetura:</strong> redesenha o formato de trabalho. Exige estruturar conhecimento, redesenhar processos e criar governança.</p>
+          <table>
+            <tr><th>Área</th><th>Atalho</th><th>Arquitetura</th></tr>
+            <tr><td>Educação</td><td>Gera prova mais rápido</td><td>Ensino adaptativo por nível do aluno</td></tr>
+            <tr><td>Saúde</td><td>Automatiza lembretes</td><td>Triagem, prioriza casos, organiza para o médico decidir</td></tr>
+            <tr><td>Gestão</td><td>Cria slides mais rápido</td><td>Processos rodam com dados estruturados; equipe sobe para o julgamento</td></tr>
+          </table>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Diagnóstico</span> As 3 perguntas para distinguir <span class="chev">›</span></summary>
+        <div class="block-body">
+          <ul>
+            <li><strong>Onde mora o conhecimento?</strong> — sistemas, pessoas ou ferramentas</li>
+            <li><strong>Como o cliente/aluno é atendido?</strong> — presencial, digital, híbrido</li>
+            <li><strong>Como uma decisão é tomada?</strong> — memória humana ou playbook</li>
+          </ul>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Contexto</span> Os 4 momentos da IA generativa <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p><strong>Chat</strong> (substituição do Google) → <strong>Copilotos</strong> (IA nas ferramentas do dia a dia) → <strong>Assistentes</strong> (conectados a dados internos) → <strong>Agentes</strong> (execução end-to-end sem interação humana — cenário ideal, mas exige lição de casa antes).</p>
+          <p>Ondas anteriores: presença digital → e-commerce → apps → nuvem → IA generativa (a mais disruptiva).</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Permanente</span> O que não muda <span class="chev">›</span></summary>
+        <div class="block-body">
+          <ul>
+            <li><strong>Relação humana</strong> — vínculo entre pessoas continua diferencial competitivo</li>
+            <li><strong>Julgamento</strong> — quem assina e responde pelas decisões é o humano</li>
+            <li><strong>Propósito</strong> — a razão de existir da empresa não é substituída pela IA</li>
+          </ul>
+          <div class="callout"><span class="c-label">Lição de casa</span>Mapear a prática de IA mais comum hoje (atalho ou arquitetura) e, se for atalho, definir o 1º passo para virar arquitetura em 90 dias.</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= AULA 02 ================= -->
+  <section class="lesson" id="a2" data-title="Aula 02 · Três Estágios de Maturidade">
+    <div class="lesson-head">
+      <div class="eyebrow">Aula 02 · Compreender</div>
+      <h2>Os Três Estágios de Maturidade: usa IA, AI-First e AI-Centric agêntica</h2>
+      <p class="lede">Maturidade não é um botão: é uma escala de profundidade. 88% das organizações usam IA, mas menos de 7% obtêm resultados positivos — e 95% dos pilotos falham por não revisar arquitetura e processo.</p>
+      <div class="lesson-actions">
+        <a class="btn btn-solid" href="https://notes.granola.ai/t/323c569a-4206-4657-b998-f3c04d02d4d9" target="_blank" rel="noopener">▶ Transcrição da aula</a>
+        <button class="btn btn-ghost mark-btn" data-lesson="a2">Marcar como revisada</button>
+      </div>
+    </div>
+    <div class="blocks">
+      <details class="block" open>
+        <summary><span class="tag">Modelo</span> Os 3 estágios <span class="chev">›</span></summary>
+        <div class="block-body">
+          <table>
+            <tr><th>Estágio</th><th>Característica</th></tr>
+            <tr><td><strong>1 · Usa IA</strong></td><td>Uso individual, pontual, desconectado. Estrutura e papéis intactos; ganho marginal</td></tr>
+            <tr><td><strong>2 · AI-Driven</strong></td><td>Processos centrais redesenhados em torno de IA. Investimento em dados e integração; IA vira base</td></tr>
+            <tr><td><strong>3 · AI-First / AI-Centric</strong></td><td>Agentes executam, monitoram e decidem o de baixo risco. "Cérebro digital" central. Humano julga, supervisiona e desenha</td></tr>
+          </table>
+          <p>No ensino: E1 = professor gera provas com IA; E2 = curso com trilhas adaptativas e feedback em tempo real; E3 = agentes gerindo matrícula, evasão e suporte com validação humana.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Regra de ouro</span> 70-20-10 do BCG <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p><strong>70%</strong> do sucesso em IA depende de pessoas e processos · <strong>20%</strong> de tecnologia · <strong>10%</strong> do algoritmo em si.</p>
+          <p>Modelo mais caro não garante melhor resultado. Resolver o processo destrava todo o resto. A sensação de "estar atrasado" é frequentemente infundada — o que trava não é interesse, é falta de diretriz e cultura.</p>
+          <p>Gartner: até 2028 a maioria das ferramentas terá agentes embarcados.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Diagnóstico</span> As 4 perguntas de maturidade <span class="chev">›</span></summary>
+        <div class="block-body">
+          <ul>
+            <li><strong>Como uma decisão é tomada?</strong> pessoa sozinha / apoiada por IA / agente com supervisão</li>
+            <li><strong>Quem executa o trabalho?</strong> pessoas sem IA / apoiadas por IA / agentes supervisionados</li>
+            <li><strong>Onde estão os dados?</strong> soltos / estruturados e acessíveis / fonte única da verdade</li>
+            <li><strong>Como um processo novo nasce?</strong> só pessoas / pensando na IA / desenhado em torno de agentes</li>
+          </ul>
+          <p>Maturidade coexiste: cada área e subprocesso pode estar num estágio diferente.</p>
+          <div class="callout"><span class="c-label">Lição de casa</span>Preencher o diagnóstico com as 4 perguntas, atribuir estágio a cada processo da área e levar ao presencial.</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= AULA 03 ================= -->
+  <section class="lesson" id="a3" data-title="Aula 03 · Casos de Referência">
+    <div class="lesson-head">
+      <div class="eyebrow">Aula 03 · Compreender</div>
+      <h2>Casos de Referência: Amazon, Klarna e Morgan Stanley sob a lente da maturidade</h2>
+      <p class="lede">Empresas de uma pessoa podem chegar a US$ 1 bi (Sam Altman). Cursor: US$ 100M em 20 meses com ~20 pessoas. A escala se desacoplou do headcount — mas cada caso ensina um caminho diferente.</p>
+      <div class="lesson-actions">
+        <a class="btn btn-solid" href="https://notes.granola.ai/t/f954ba46-64f9-4aa5-ae5b-9d182a705d57" target="_blank" rel="noopener">▶ Transcrição da aula</a>
+        <button class="btn btn-ghost mark-btn" data-lesson="a3">Marcar como revisada</button>
+      </div>
+    </div>
+    <div class="blocks">
+      <details class="block" open>
+        <summary><span class="tag">Estrutura</span> Amazon — dados endereçáveis <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p>Há mais de 20 anos, todos os dados internos são acessíveis via API. Na era dos agentes, essa arquitetura é O diferencial.</p>
+          <p class="quote">Nossos processos já estão estruturados, documentados e endereçáveis?</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Pressa</span> Klarna — o corte que voltou atrás <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p>Substituiu 2/3 dos chats de atendimento (~700 pessoas). Tempo de resolução caiu de 11 para 2 minutos — mas a qualidade despencou. Em 2025 recontrataram; o CEO admitiu que o corte pesou demais.</p>
+          <p><strong>Lição:</strong> não basta executar a estratégia de forma brusca.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Acervo</span> Morgan Stanley — o ativo que ninguém replica <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p>Mais de 100 mil documentos institucionais curados que assistentes e agentes acessam em tempo real para servir os consultores. O modelo de IA é o mesmo dos concorrentes — o diferencial é o acervo de décadas.</p>
+          <p><strong>Paralelo Mandic:</strong> ementas com histórico de evolução, histórico regulatório (o que o MEC aprova), casos clínicos e metodologia própria. O acervo já existe; falta estruturá-lo para agentes operarem.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Anticaso</span> Meddivine — IA amplifica o que você aponta <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p>800+ perfis falsos de médicos no Facebook (nomes e fotos sintéticos) para vender medicamentos de emagrecimento. Advertências de múltiplos reguladores.</p>
+          <p><strong>Lição:</strong> aponta para mentira, escala a mentira; aponta para processo estruturado com dados, escala resultado. Para instituições cujo ativo é confiança, isso é crítico.</p>
+          <div class="callout"><span class="c-label">Exercício 90 dias</span>Escolher um caso de referência, identificar a 1ª mudança visível em 90 dias e o 1º bloqueio real (TI, dados, marketing, operações).</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= AULA 04 ================= -->
+  <section class="lesson" id="a4" data-title="Aula 04 · Anatomia de um Agente">
+    <div class="lesson-head">
+      <div class="eyebrow">Aula 04 · Analisar</div>
+      <h2>Anatomia de um Agente: percepção, raciocínio, ação e o loop agêntico</h2>
+      <p class="lede">Chatbot segue árvore fixa. Automação executa sequência a partir de gatilho — sem julgamento, se o contexto muda ela falha. Agente percebe, raciocina, age, observa e repete até concluir o objetivo.</p>
+      <div class="lesson-actions">
+        <a class="btn btn-solid" href="https://notes.granola.ai/t/d6bd2612-c509-4258-ad6e-32fc069fecc4" target="_blank" rel="noopener">▶ Transcrição da aula</a>
+        <button class="btn btn-ghost mark-btn" data-lesson="a4">Marcar como revisada</button>
+      </div>
+    </div>
+    <div class="blocks">
+      <details class="block" open>
+        <summary><span class="tag">Estrutura</span> As 5 peças do agente <span class="chev">›</span></summary>
+        <div class="block-body">
+          <ul>
+            <li><strong>Motor (LLM):</strong> GPT, Gemini, Claude — recebe a entrada e raciocina</li>
+            <li><strong>Instruções:</strong> regras, papel e limites ("você é especialista em atendimento de…")</li>
+            <li><strong>Ferramentas:</strong> sistemas externos que ele aciona (agenda, base de dados, canal)</li>
+            <li><strong>Memória:</strong> curto prazo (conversa atual) e longo prazo (base de conhecimento)</li>
+            <li><strong>Loop agêntico:</strong> sem ele não há agente funcional</li>
+          </ul>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Mecânica</span> O loop em 4 etapas + custo <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p><strong>Percepção</strong> (lê contexto e dados) → <strong>Raciocínio</strong> (monta plano) → <strong>Ação</strong> (usa ferramentas) → <strong>Observação</strong> (lê resultado, decide o próximo passo). Repete até concluir.</p>
+          <p>A IA não tem memória nativa entre passos: <strong>todo o contexto é reenviado a cada volta</strong>. Custo = contexto × passos × agentes × preço do modelo. Ex.: 15.000 tokens × 5 voltas ≈ 92.000 tokens processados. Custo é variável, não linear.</p>
+          <p><strong>Objetivo de design:</strong> atingir o resultado com o mínimo de passos.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Gestão</span> Especificação, não intuição <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p>Agente faz exatamente o que foi desenhado, sem tato humano para desvios. 4 elementos obrigatórios:</p>
+          <ul>
+            <li><strong>1.</strong> Objetivo claro</li>
+            <li><strong>2.</strong> Critério de sucesso</li>
+            <li><strong>3.</strong> Limites de autonomia</li>
+            <li><strong>4.</strong> Condições de parada (quando escalar para humano)</li>
+          </ul>
+          <p>Sempre definir teto: de execuções, financeiro e de falha.</p>
+          <div class="callout"><span class="c-label">Lição de casa</span>Mapear uma tarefa em ciclo: qual é, quais ferramentas o agente precisaria, qual memória/dados. Base para o presencial.</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= AULA 05 ================= -->
+  <section class="lesson" id="a5" data-title="Aula 05 · Multi-Agente, Ferramentas e MCP">
+    <div class="lesson-head">
+      <div class="eyebrow">Aula 05 · Analisar</div>
+      <h2>Sistemas multi-agente, ferramentas e MCP: como agentes se conectam ao mundo</h2>
+      <p class="lede">O modelo de IA já é commodity — as ferramentas é que dão poder real de execução. E o MCP é o "USB-C dos agentes": a tomada única que conecta qualquer sistema à camada agêntica.</p>
+      <div class="lesson-actions">
+        <a class="btn btn-solid" href="https://notes.granola.ai/t/75f08f08-e71b-416f-b4b5-584883b16889" target="_blank" rel="noopener">▶ Transcrição da aula</a>
+        <button class="btn btn-ghost mark-btn" data-lesson="a5">Marcar como revisada</button>
+      </div>
+    </div>
+    <div class="blocks">
+      <details class="block" open>
+        <summary><span class="tag">Tipos</span> 4 tipos de agente · 3 tipos de ferramenta <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p><strong>Agentes:</strong> copiloto (baixo risco) · agentes de código ("já vêm com freio", mais fácil detectar falha) · conversacionais (interface com cliente, 24/7) · de operação (executam processos ponta a ponta — cancelamentos, reembolsos; risco mais alto, exigem critérios bem definidos).</p>
+          <p><strong>Ferramentas:</strong> busca e leitura (SharePoint, Drive, Notion) · cálculo e ação (cria, grava, dispara) · acionamento de outro agente.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Arquitetura</span> Multi-agente e o dado dos 79% <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p>Arquitetura típica: <strong>agente supervisor + agentes especialistas</strong> — o supervisor entende a intenção e distribui; cada sub-agente tem contexto enxuto (ex. educacional: agentes separados para pagamento, cursos, mercado).</p>
+          <p>Riscos crescem com agentes em paralelo: erro no agente 3 gera cascata. Critério de parada e custo por interação devem ser definidos.</p>
+          <p class="quote">79% das falhas em sistemas multi-agente vêm de falhas de especificação — não do modelo nem das integrações.</p>
+          <p>Human-in-the-loop deixa de ser opcional e vira pré-requisito.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Protocolo</span> MCP no contexto educacional <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p>Camada padronizada, modelada para agentes (diferente das integrações antigas). Sistemas conectáveis: ERP acadêmico (matrículas, pré-requisitos, histórico), ambiente virtual (cursos, trilhas, progresso), sistemas comerciais (HubSpot, RD Station — com dados sensíveis removidos), repositórios internos.</p>
+          <div class="callout"><span class="c-label">Lição de casa</span>Identificar os 2 sistemas principais da área que precisam de MCP e mapear a barreira de cada um: contratual, técnica ou outra. Essa lista é a base de todos os agentes daqui em diante.</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= AULA 06 ================= -->
+  <section class="lesson" id="a6" data-title="Aula 06 · Quando o Agente Faz Sentido">
+    <div class="lesson-head">
+      <div class="eyebrow">Aula 06 · Analisar</div>
+      <h2>Limites, riscos e o critério de decisão: quando o agente faz sentido</h2>
+      <p class="lede">Nem tudo deve ser agente — automações resolvem bem casos com regras fixas. Dimensione o modelo pelo custo do erro, não pelo tamanho do orçamento.</p>
+      <div class="lesson-actions">
+        <a class="btn btn-solid" href="https://notes.granola.ai/t/cad5a14e-166a-4520-9d41-941b3d610fe6" target="_blank" rel="noopener">▶ Transcrição da aula</a>
+        <button class="btn btn-ghost mark-btn" data-lesson="a6">Marcar como revisada</button>
+      </div>
+    </div>
+    <div class="blocks">
+      <details class="block" open>
+        <summary><span class="tag">Decisão</span> As 3 perguntas <span class="chev">›</span></summary>
+        <div class="block-body">
+          <ul>
+            <li><strong>Exige julgamento ou só segue regras?</strong> regras → automação</li>
+            <li><strong>O contexto é estável ou dinâmico?</strong> dinâmico → agente</li>
+            <li><strong>Qual é o custo do erro?</strong> erro caro → mais cautela com autonomia</li>
+          </ul>
+          <p>Custo de erro pode ser reputacional, financeiro ou percebido só ao longo do tempo. Ex.: concessionária que passa carro de R$200k por R$100k — o prejuízo é de quem implantou o agente. Triagem errada em saúde tem custo grave.</p>
+          <p>Agente resolve 60-70% das dúvidas rotineiras; 100% é difícil. <strong>Modelo certo é híbrido:</strong> agente na 1ª camada, humano nos casos sensíveis.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Custos</span> Precificação por tokens (jun/2026) <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p>Cobrança por tokens de entrada + saída (saída custa ~5x mais). Modelo grande custa 10-30x o pequeno.</p>
+          <table>
+            <tr><th>Modelo</th><th>Entrada /M tokens</th><th>Saída /M tokens</th></tr>
+            <tr><td>Gemini 2.5 Flash</td><td>$0,10</td><td>$0,40</td></tr>
+            <tr><td>GPT-4.5</td><td>$1</td><td>$5</td></tr>
+            <tr><td>Claude Sonnet 4.5</td><td>$3</td><td>$15</td></tr>
+            <tr><td>Opus / GPT-5.5</td><td>$5</td><td>$25–30</td></tr>
+          </table>
+          <p>Mesma tarefa de 92k tokens: Flash ~$0,00 · Haiku ~$0,11 · Sonnet ~$0,32 · GPT-5 ~$0,55.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Otimização</span> Arquitetura para reduzir custo <span class="chev">›</span></summary>
+        <div class="block-body">
+          <ul>
+            <li><strong>Roteamento de modelo:</strong> tarefa simples → modelo pequeno; complexa → grande</li>
+            <li><strong>Caching de contexto:</strong> reaproveitar instruções que se repetem</li>
+            <li><strong>RAG:</strong> buscar só o trecho relevante, não enviar tudo</li>
+            <li><strong>Batching:</strong> agrupar execuções</li>
+            <li><strong>Teto de passos + feedback loop:</strong> evita loop infinito e custo descontrolado</li>
+          </ul>
+          <p>Agente pode custar 10-12x menos por atendimento que humano — mas sem limite de iteração, pode custar mais.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Guard-rail</span> Zonas que sempre exigem humano <span class="chev">›</span></summary>
+        <div class="block-body">
+          <ul>
+            <li>Impacto direto ao aluno</li>
+            <li>Efeito regulatório (conselhos, compliance)</li>
+            <li>Risco reputacional (atendimento mal feito, comunicação fora das diretrizes)</li>
+          </ul>
+          <p class="quote">IA acelera, mas o julgamento é nosso.</p>
+          <div class="callout"><span class="c-label">Lição de casa</span>Documentar 2 casos: uma atividade onde o agente seria ideal e uma onde a ausência dele é desperdício claro.</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= AULA 07 ================= -->
+  <section class="lesson" id="a7" data-title="Aula 07 · Espectro de Autonomia">
+    <div class="lesson-head">
+      <div class="eyebrow">Aula 07 · Aplicar</div>
+      <h2>O espectro de autonomia e as vantagens comparativas humano-agente</h2>
+      <p class="lede">Autonomia não é binária: cada tarefa tem um ponto específico de parada. Dentro do mesmo processo, algumas etapas exigem aprovação humana e outras não.</p>
+      <div class="lesson-actions">
+        <a class="btn btn-solid" href="https://notes.granola.ai/t/cae8ec7a-201a-4503-8b90-00db2d32101d" target="_blank" rel="noopener">▶ Transcrição da aula</a>
+        <button class="btn btn-ghost mark-btn" data-lesson="a7">Marcar como revisada</button>
+      </div>
+    </div>
+    <div class="blocks">
+      <details class="block" open>
+        <summary><span class="tag">Modelo</span> Os 5 níveis <span class="chev">›</span></summary>
+        <div class="block-body">
+          <div class="levels">
+            <div class="level"><div class="l-n">N1</div><div class="l-t">Manual</div><div class="l-d">Humano faz tudo</div></div>
+            <div class="level"><div class="l-n">N2</div><div class="l-t">Assistido</div><div class="l-d">IA sugere, humano decide e executa</div></div>
+            <div class="level"><div class="l-n">N3</div><div class="l-t">Aumentado</div><div class="l-d">IA executa parte, humano completa</div></div>
+            <div class="level"><div class="l-n">N4</div><div class="l-t">Delegado</div><div class="l-d">IA executa, humano audita 20-30%</div></div>
+            <div class="level"><div class="l-n">N5</div><div class="l-t">Autônomo</div><div class="l-d">IA executa, humano só nas exceções</div></div>
+          </div>
+          <p><strong>Subir de nível exige 3 condições:</strong> trabalho mais estruturado + custo de erro absorvível + histórico de acertos acumulado. Subir sem elas = "promover quem nunca entregou".</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Comparativo</span> Onde cada um é melhor <span class="chev">›</span></summary>
+        <div class="block-body">
+          <table>
+            <tr><th>Humano</th><th>Agente</th></tr>
+            <tr><td>Julgamento de contexto, leitura social, criatividade original, decisões sobre valores e conflitos</td><td>Consistência, escala, volume sem fadiga, paciência</td></tr>
+          </table>
+          <p>IA generativa cria com base em padrões treinados; a criatividade humana permanece diferencial competitivo.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Alertas</span> Delegar de menos vs. demais <span class="chev">›</span></summary>
+        <div class="block-body">
+          <ul>
+            <li><strong>De menos:</strong> humano fazendo trabalho repetitivo que a IA deveria executar</li>
+            <li><strong>Demais:</strong> pedir à IA a decisão que é sua ("qual é o melhor caminho?" envenena a resposta)</li>
+          </ul>
+          <p>Exemplos: marketing — variações de texto ficam com a IA, voz de marca com humano; atendimento — dúvidas frequentes assistido/delegado, reclamações sensíveis vão para humano; radiologia — IA identifica achados, professor e aluno validam a conduta.</p>
+          <div class="callout"><span class="c-label">Exercício</span>Mapear 3 processos: nível atual, nível ideal e o que precisa mudar para a transição ser segura. Matéria-prima do Bloco 2 do presencial.</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= AULA 08 ================= -->
+  <section class="lesson" id="a8" data-title="Aula 08 · Redesenho de Workflow">
+    <div class="lesson-head">
+      <div class="eyebrow">Aula 08 · Aplicar</div>
+      <h2>Redesenho de workflow: casos de coexistência e armadilhas do design</h2>
+      <p class="lede">Todo processo — humano ou agêntico — segue entrada → caixa preta → saída. Agentes funcionam como colaboradores, mas com capacidade de processamento simultâneo muito maior.</p>
+      <div class="lesson-actions">
+        <a class="btn btn-solid" href="https://notes.granola.ai/t/84aa0ebf-010c-4764-bc55-ff93e05e48c3" target="_blank" rel="noopener">▶ Transcrição da aula</a>
+        <button class="btn btn-ghost mark-btn" data-lesson="a8">Marcar como revisada</button>
+      </div>
+    </div>
+    <div class="blocks">
+      <details class="block" open>
+        <summary><span class="tag">Framework</span> Os 4 tipos de etapa <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p><strong>Julgamento</strong> · <strong>Execução estruturada</strong> · <strong>Integração de informação</strong> · <strong>Relação humana</strong></p>
+          <p>Regra base: agente assume execução estruturada e integração; <strong>humano é insubstituível no julgamento e na relação</strong> — as etapas críticas, onde o real valor mora. As duas armadilhas: delegar demais e delegar de menos.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Métricas</span> As 4 métricas essenciais <span class="chev">›</span></summary>
+        <div class="block-body">
+          <ul>
+            <li><strong>Vazão:</strong> casos processados</li>
+            <li><strong>Taxa de acerto:</strong> qualidade da saída vs. expectativa</li>
+            <li><strong>Escalonamento:</strong> quando transfere para humano</li>
+            <li><strong>Custo:</strong> pode inviabilizar o projeto — entradas sujas aumentam custo e pioram qualidade. Estimar: volume mensal × média de mensagens × tamanho das conversas</li>
+          </ul>
+          <p>Referência: "Liderança de Autogestão" (Intel de $2B para $20B em 10 anos) — cortar etapas desnecessárias e medir apenas o que importa.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Exemplos</span> 3 workflows redesenhados <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p><strong>Jornada comercial de curso:</strong> agente tira dúvidas 24/7 e qualifica por playbook → humano fecha (rapport, consultoria de carreira) → agente faz matrícula, contrato, boleto e acesso.</p>
+          <p><strong>Prevenção de evasão:</strong> agente de monitoramento (frequência, notas, financeiro) → agente de ranking de risco → agente de disparo para baixo risco → humano intervém nos casos críticos.</p>
+          <p><strong>Emissão de certificado:</strong> agente recebe pedido → agente confere carga horária, notas, TCC → humano valida e assina → agente emite e entrega.</p>
+          <div class="callout"><span class="c-label">Lição de casa</span>Escolher um processo real (como é executado hoje), mapear cada etapa nos 4 tipos e marcar o ponto humano insubstituível.</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= AULA 09 ================= -->
+  <section class="lesson" id="a9" data-title="Aula 09 · Cérebro Digital">
+    <div class="lesson-head">
+      <div class="eyebrow">Aula 09 · Projetar</div>
+      <h2>O cérebro digital: RAG, knowledge graph e memória institucional</h2>
+      <p class="lede">Base de conhecimento estruturada que permite à IA operar com o contexto da organização. Mais dados não significa melhor resultado: curadoria evita alucinações.</p>
+      <div class="lesson-actions">
+        <a class="btn btn-solid" href="https://notes.granola.ai/t/a4dbdb13-ebd0-425c-a868-b9a4e24ec1ba" target="_blank" rel="noopener">▶ Transcrição da aula</a>
+        <button class="btn btn-ghost mark-btn" data-lesson="a9">Marcar como revisada</button>
+      </div>
+    </div>
+    <div class="blocks">
+      <details class="block" open>
+        <summary><span class="tag">Mecânica</span> RAG em 2 fases <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p><strong>Fase 1 — Preparação:</strong> documentos divididos em chunks, cada trecho indexado por significado (vetores numéricos).</p>
+          <p><strong>Fase 2 — Resposta:</strong> a pergunta também vira vetor; busca por similaridade semântica (não palavra exata); só o contexto relevante é montado e entregue ao modelo.</p>
+          <p><strong>Por quê:</strong> a janela de contexto tem tamanho fixo — grandes volumes não cabem. Com RAG, só o trecho necessário entra: janela mais limpa, respostas mais precisas, menor custo por token.</p>
+          <p><strong>Quando usar:</strong> instrução direta para informação pequena, estável e específica; RAG para dado dinâmico, volumoso ou externo.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Formato</span> Markdown e Knowledge Graph <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p><strong>Markdown (.md)</strong> é o formato ideal: legível por humanos e agentes, versionável, com estrutura de títulos que facilita indexação. Word e PDF exigem etapa extra de visão computacional.</p>
+          <p><strong>Knowledge Graph:</strong> quando os dados têm dependências hierárquicas — ex.: disciplina → pré-requisito → professor → PPC.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Aplicação</span> Bases para coordenação acadêmica <span class="chev">›</span></summary>
+        <div class="block-body">
+          <ul>
+            <li>PPC (Projeto Pedagógico do Curso)</li>
+            <li>Histórico e notas dos alunos (ERP)</li>
+            <li>Atas do NDE e decisões da coordenação (frequentemente dispersas)</li>
+            <li>Protocolos das clínicas-escola</li>
+            <li>Regimento e manual do aluno</li>
+          </ul>
+          <p><strong>Maior gargalo:</strong> informações dispersas — atas, protocolos, gravações sem função. Ferramentas com RAG nativo: Custom GPTs, Claude Projects, NotebookLM.</p>
+          <div class="callout"><span class="c-label">Lição de casa</span>Mapear as bases da área e classificar cada uma: dispersa, documentada ou de sistema externo a integrar.</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ================= AULA 10 ================= -->
+  <section class="lesson" id="a10" data-title="Aula 10 · Governança e Vantagem Competitiva">
+    <div class="lesson-head">
+      <div class="eyebrow">Aula 10 · Projetar</div>
+      <h2>Governança do cérebro digital e vantagem competitiva agêntica</h2>
+      <p class="lede">Governança entra na camada de automação, onde o agente opera sem supervisão direta. Ferramentas de uso individual dispensam essa camada — o próprio usuário valida.</p>
+      <div class="lesson-actions">
+        <a class="btn btn-solid" href="https://notes.granola.ai/t/de2542e3-eabc-4ccc-93d1-b3356078d3be" target="_blank" rel="noopener">▶ Transcrição da aula</a>
+        <button class="btn btn-ghost mark-btn" data-lesson="a10">Marcar como revisada</button>
+      </div>
+    </div>
+    <div class="blocks">
+      <details class="block" open>
+        <summary><span class="tag">Princípio</span> Agente não medido é risco <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p class="quote">Agente não medido não é autônomo: é risco.</p>
+          <p><strong>3 papéis na governança de dados:</strong> quem alimenta (insere dados relevantes) · quem mantém (revisa e aposenta conteúdo velho — excesso e obsolescência aumentam alucinação) · quem governa (decide o que entra, sai e quem acessa o quê — financeiro e pessoal restritos; grade e estrutura mais abertos).</p>
+          <p><strong>Autonomia por nível de risco (tarefa a tarefa, não regra única):</strong> baixo → agente decide sozinho · médio → humano no loop · alto (dado sensível, impacto direto no aluno) → agente instrui e coleta, humano decide.</p>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Instrumentação</span> Log · Evals · Guardrails <span class="chev">›</span></summary>
+        <div class="block-body">
+          <ul>
+            <li><strong>Log:</strong> registra cada etapa da caixa preta — entrada, decisão, ferramentas chamadas, custo e saída. Permite auditar cada decisão</li>
+            <li><strong>Evals:</strong> casos de teste com comportamento esperado, rodados antes da produção com nota/placar (ex.: aluno pede cancelamento → esperado é entender o motivo e tentar reverter)</li>
+            <li><strong>Guardrails:</strong> travas pós-produção que limitam até onde o agente vai sem acionar humano (ex.: agente não cancela matrícula — transfere). Também filtram permissão: o agente carrega a permissão de quem representa</li>
+          </ul>
+        </div>
+      </details>
+      <details class="block">
+        <summary><span class="tag">Fechamento</span> A vantagem que ninguém baixa pronta <span class="chev">›</span></summary>
+        <div class="block-body">
+          <p>Os modelos (GPT, Claude, Gemini) estão em nível de entrega muito próximo — e todos os concorrentes têm acesso aos mesmos. O diferencial é a <strong>instrumentação própria</strong>: base de dados, histórico de interação, conhecimento de negócio e processos documentados.</p>
+          <p class="quote">O cérebro digital bem governado é o ativo que ninguém baixa pronto.</p>
+          <div class="callout"><span class="c-label">Presencial</span>Próximo encontro: prática e conexão de todos os conceitos do módulo.</div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    Painel gerado a partir das anotações das Aulas 01–10 · MBA Gestão Educacional em Saúde e IA · Links "Transcrição" abrem as notas Granola de cada aula · Agosto/2026
+  </footer>
+</main>
+</div>
+
+<script>
+(function(){
+  const lessons = Array.from(document.querySelectorAll('.lesson'));
+  const navBtns = Array.from(document.querySelectorAll('.lesson-btn'));
+  const searchInput = document.getElementById('searchInput');
+  const hitsBox = document.getElementById('searchHits');
+  const emptyState = document.getElementById('emptyState');
+  const vitals = document.getElementById('vitals');
+  const sidebar = document.getElementById('sidebar');
+  const menuToggle = document.getElementById('menuToggle');
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+
+  // reviewed state kept in memory for this session
+  const reviewed = new Set();
+
+  function show(id){
+    lessons.forEach(l => l.classList.toggle('visible', l.id === id));
+    navBtns.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+    hitsBox.classList.remove('visible');
+    emptyState.classList.remove('visible');
+    vitals.style.display = (id === 'a1') ? '' : 'none';
+    if (window.innerWidth <= 900) sidebar.classList.remove('open');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  navBtns.forEach(b => b.addEventListener('click', () => show(b.dataset.target)));
+
+  // mark as reviewed
+  document.querySelectorAll('.mark-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.lesson;
+      if (reviewed.has(id)) { reviewed.delete(id); btn.classList.remove('done'); btn.textContent = 'Marcar como revisada'; }
+      else { reviewed.add(id); btn.classList.add('done'); btn.textContent = '✔ Revisada'; }
+      navBtns.forEach(nb => nb.classList.toggle('done', reviewed.has(nb.dataset.target)));
+      const n = reviewed.size;
+      progressFill.style.width = (n*10) + '%';
+      progressText.textContent = n + '/10';
+    });
+  });
+
+  // search across all lesson text
+  const index = lessons.map(l => ({
+    id: l.id,
+    title: l.dataset.title,
+    text: l.textContent.replace(/\s+/g,' ')
+  }));
+
+  function snippet(text, term){
+    const i = text.toLowerCase().indexOf(term.toLowerCase());
+    if (i < 0) return '';
+    const start = Math.max(0, i - 60);
+    const end = Math.min(text.length, i + term.length + 90);
+    let s = (start>0?'…':'') + text.slice(start, end) + (end<text.length?'…':'');
+    const re = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')','ig');
+    return s.replace(re,'<mark>$1</mark>');
+  }
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim();
+    if (q.length < 2){
+      hitsBox.classList.remove('visible');
+      emptyState.classList.remove('visible');
+      const current = lessons.find(l => l.classList.contains('visible'));
+      if (!current) show('a1');
+      return;
+    }
+    const results = index.filter(e => e.text.toLowerCase().includes(q.toLowerCase()));
+    lessons.forEach(l => l.classList.remove('visible'));
+    vitals.style.display = 'none';
+    if (!results.length){
+      hitsBox.classList.remove('visible');
+      emptyState.classList.add('visible');
+      return;
+    }
+    emptyState.classList.remove('visible');
+    hitsBox.innerHTML = results.map(r =>
+      '<button class="hit" data-go="' + r.id + '">' +
+      '<div class="h-lesson">' + r.title + '</div>' +
+      '<div class="h-text">' + snippet(r.text, q) + '</div></button>'
+    ).join('');
+    hitsBox.classList.add('visible');
+    hitsBox.querySelectorAll('.hit').forEach(h =>
+      h.addEventListener('click', () => { searchInput.value=''; show(h.dataset.go); })
+    );
+  });
+
+  menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+  show('a1');
+})();
+</script>
+</body>
+</html>
