@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Estudo · Classificação dos Seres Vivos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --papel:#FBFDF7;
+    --tinta:#1E3A2F;
+    --folha:#2E7D5B;
+    --folha-claro:#E3F2E9;
+    --sol:#F5B841;
+    --sol-claro:#FDF3DC;
+    --ceu:#3E7CB1;
+    --ceu-claro:#E4EFF7;
+    --coral:#E0656B;
+    --coral-claro:#FBE7E8;
+    --cinza:#6B7A72;
+    --borda:#D8E4DC;
+    --raio:16px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Nunito',sans-serif;
+    background:var(--papel);
+    color:var(--tinta);
+    line-height:1.65;
+    font-size:17px;
+  }
+  h1,h2,h3{font-family:'Baloo 2',cursive;line-height:1.2;}
+
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px;}
+
+  /* ---------- topo ---------- */
+  header{
+    background:linear-gradient(160deg,#1E3A2F 0%,#2E7D5B 90%);
+    color:#fff;
+    padding:56px 0 48px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute;inset:0;
+    background:radial-gradient(circle at 85% 20%, rgba(245,184,65,.25), transparent 45%);
+    pointer-events:none;
+  }
+  .tag{
+    display:inline-block;
+    background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.35);
+    border-radius:999px;
+    padding:4px 14px;
+    font-size:.8rem;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  header h1{font-size:clamp(1.8rem,5vw,2.7rem);font-weight:800;max-width:620px;}
+  header p{margin-top:10px;max-width:560px;opacity:.92;}
+
+  nav{
+    background:#fff;
+    border-bottom:1px solid var(--borda);
+    position:sticky;top:0;z-index:20;
+  }
+  nav .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;}
+  nav a{
+    white-space:nowrap;
+    text-decoration:none;
+    color:var(--tinta);
+    font-weight:700;
+    font-size:.86rem;
+    padding:7px 14px;
+    border-radius:999px;
+    background:var(--folha-claro);
+    transition:background .2s;
+  }
+  nav a:hover,nav a:focus-visible{background:var(--sol);outline:none;}
+
+  /* ---------- seções ---------- */
+  section{padding:52px 0 8px;}
+  .eyebrow{
+    font-size:.78rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--folha);margin-bottom:6px;
+  }
+  section h2{font-size:clamp(1.4rem,4vw,1.9rem);margin-bottom:16px;}
+  section p{margin-bottom:14px;max-width:70ch;}
+
+  .card{
+    background:#fff;
+    border:1px solid var(--borda);
+    border-radius:var(--raio);
+    padding:24px 26px;
+    margin:18px 0;
+    box-shadow:0 2px 8px rgba(30,58,47,.05);
+  }
+  .card h3{font-size:1.15rem;margin-bottom:8px;}
+
+  .destaque{
+    background:var(--sol-claro);
+    border-left:6px solid var(--sol);
+    border-radius:0 var(--raio) var(--raio) 0;
+    padding:16px 20px;
+    margin:18px 0;
+    font-weight:600;
+  }
+  .dica{
+    background:var(--ceu-claro);
+    border-left:6px solid var(--ceu);
+    border-radius:0 var(--raio) var(--raio) 0;
+    padding:16px 20px;
+    margin:18px 0;
+  }
+  .dica strong{color:var(--ceu);}
+
+  /* ---------- árvore do ancestral comum ---------- */
+  .arvore-box{
+    background:#fff;border:1px solid var(--borda);border-radius:var(--raio);
+    padding:20px;margin:20px 0;text-align:center;
+  }
+  .arvore-box svg{max-width:100%;height:auto;}
+  .legenda{font-size:.85rem;color:var(--cinza);margin-top:8px;}
+
+  /* ---------- funil da classificação (assinatura) ---------- */
+  .funil{display:flex;flex-direction:column;align-items:center;gap:0;margin:26px 0;}
+  .nivel{
+    color:#fff;
+    border-radius:12px;
+    padding:12px 16px;
+    text-align:center;
+    font-weight:700;
+    cursor:pointer;
+    border:none;
+    font-family:'Nunito',sans-serif;
+    font-size:1rem;
+    transition:transform .15s;
+    margin-bottom:8px;
+    position:relative;
+  }
+  .nivel:hover,.nivel:focus-visible{transform:scale(1.03);outline:3px solid var(--sol);}
+  .nivel small{display:block;font-weight:600;font-size:.78rem;opacity:.9;}
+  .n1{width:min(100%,560px);background:#1E3A2F;}
+  .n2{width:min(92%,500px);background:#2E7D5B;}
+  .n3{width:min(84%,440px);background:#3E8E68;}
+  .n4{width:min(76%,385px);background:#54997A;}
+  .n5{width:min(68%,330px);background:#3E7CB1;}
+  .n6{width:min(60%,280px);background:#5B8FBE;}
+  .n7{width:min(52%,235px);background:#E0656B;}
+  .n8{width:min(44%,195px);background:#C94A50;}
+  .painel-nivel{
+    display:none;
+    background:var(--folha-claro);
+    border-radius:var(--raio);
+    padding:18px 22px;
+    margin-top:6px;
+    max-width:560px;
+    text-align:left;
+  }
+  .painel-nivel.ativo{display:block;animation:surgir .25s ease;}
+  @keyframes surgir{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+
+  /* ---------- tabela exemplo ---------- */
+  table{width:100%;border-collapse:collapse;margin:16px 0;background:#fff;border-radius:var(--raio);overflow:hidden;border:1px solid var(--borda);font-size:.95rem;}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--borda);}
+  th{background:var(--folha);color:#fff;font-family:'Baloo 2',cursive;font-weight:700;}
+  tr:last-child td{border-bottom:none;}
+  td em{color:var(--cinza);}
+
+  /* ---------- quiz ---------- */
+  .questao{counter-increment:q;}
+  .questao h3::before{
+    content:counter(q);
+    display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;border-radius:50%;
+    background:var(--folha);color:#fff;
+    font-size:.95rem;margin-right:10px;
+  }
+  #quiz{counter-reset:q;}
+  .opcoes{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+  .opcoes button{
+    text-align:left;
+    background:var(--papel);
+    border:2px solid var(--borda);
+    border-radius:12px;
+    padding:11px 16px;
+    font-family:'Nunito',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    color:var(--tinta);
+    cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  .opcoes button:hover:not(:disabled),.opcoes button:focus-visible{border-color:var(--folha);outline:none;}
+  .opcoes button.certa{background:var(--folha-claro);border-color:var(--folha);}
+  .opcoes button.errada{background:var(--coral-claro);border-color:var(--coral);}
+  .feedback{display:none;margin-top:12px;padding:12px 16px;border-radius:12px;font-size:.95rem;}
+  .feedback.mostrar{display:block;animation:surgir .25s ease;}
+  .feedback.ok{background:var(--folha-claro);border-left:5px solid var(--folha);}
+  .feedback.nok{background:var(--coral-claro);border-left:5px solid var(--coral);}
+
+  .placar{
+    background:var(--sol-claro);
+    border:2px dashed var(--sol);
+    border-radius:var(--raio);
+    text-align:center;
+    padding:20px;
+    font-weight:800;
+    font-size:1.1rem;
+    margin:24px 0;
+  }
+
+  /* ---------- resposta discursiva ---------- */
+  details{
+    background:#fff;border:1px solid var(--borda);border-radius:12px;
+    padding:14px 18px;margin-top:10px;
+  }
+  summary{cursor:pointer;font-weight:800;color:var(--folha);}
+  details[open] summary{margin-bottom:8px;}
+
+  /* ---------- referências / rodapé ---------- */
+  .refs li{margin-bottom:10px;margin-left:22px;}
+  footer{
+    margin-top:56px;
+    background:var(--tinta);
+    color:#fff;
+    text-align:center;
+    padding:26px 20px;
+    font-size:.9rem;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none!important;transition:none!important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="tag">Ciências · 8º ano</span>
+    <h1>🌱 Classificação dos Seres Vivos</h1>
+    <p>Ancestral comum · Domínio · Reino · Filo · Família — tudo o que você precisa para mandar bem na prova de amanhã!</p>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
+    <a href="#ancestral">1. Ancestral comum</a>
+    <a href="#niveis">2. Níveis de classificação</a>
+    <a href="#exemplo">3. Exemplo completo</a>
+    <a href="#resumo">4. Resumo relâmpago</a>
+    <a href="#quiz">5. Exercícios</a>
+    <a href="#refs">6. Referências</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ===================== 1. ANCESTRAL COMUM ===================== -->
+  <section id="ancestral">
+    <div class="eyebrow">Parte 1</div>
+    <h2>O que é um ancestral comum?</h2>
+    <p>Imagine sua árvore genealógica: você e seus primos têm avós em comum, certo? Na natureza acontece algo parecido, só que em uma escala gigante de <strong>milhões de anos</strong>.</p>
+    <p>Um <strong>ancestral comum</strong> é uma espécie antiga que deu origem a duas ou mais espécies diferentes ao longo do tempo. Isso acontece por causa da <strong>evolução</strong>: pequenas mudanças vão se acumulando geração após geração, até que os descendentes ficam tão diferentes que viram espécies novas.</p>
+
+    <div class="arvore-box">
+      <svg viewBox="0 0 640 300" role="img" aria-label="Árvore evolutiva mostrando um ancestral comum se dividindo em lobo, cachorro e raposa">
+        <line x1="320" y1="250" x2="320" y2="170" stroke="#2E7D5B" stroke-width="6" stroke-linecap="round"/>
+        <line x1="320" y1="170" x2="140" y2="80" stroke="#2E7D5B" stroke-width="6" stroke-linecap="round"/>
+        <line x1="320" y1="170" x2="500" y2="80" stroke="#2E7D5B" stroke-width="6" stroke-linecap="round"/>
+        <line x1="230" y1="125" x2="320" y2="80" stroke="#2E7D5B" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="320" cy="250" r="10" fill="#F5B841" stroke="#1E3A2F" stroke-width="3"/>
+        <text x="320" y="285" text-anchor="middle" font-family="Nunito" font-weight="800" font-size="16" fill="#1E3A2F">Ancestral comum 🐾</text>
+        <text x="140" y="60" text-anchor="middle" font-size="30">🐺</text>
+        <text x="140" y="35" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="14" fill="#1E3A2F">Lobo</text>
+        <text x="320" y="60" text-anchor="middle" font-size="30">🐶</text>
+        <text x="320" y="35" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="14" fill="#1E3A2F">Cachorro</text>
+        <text x="500" y="60" text-anchor="middle" font-size="30">🦊</text>
+        <text x="500" y="35" text-anchor="middle" font-family="Nunito" font-weight="700" font-size="14" fill="#1E3A2F">Raposa</text>
+      </svg>
+      <p class="legenda">Este desenho se chama <strong>árvore filogenética</strong>: o ponto amarelo é o ancestral comum, e os galhos mostram as espécies que surgiram a partir dele.</p>
+    </div>
+
+    <div class="destaque">💡 Quanto mais parecidas duas espécies são, mais <u>recente</u> é o ancestral comum entre elas. O cachorro e o lobo são "primos próximos"; o cachorro e a raposa são "primos mais distantes".</div>
+
+    <div class="card">
+      <h3>Um fato incrível</h3>
+      <p>Se voltarmos bilhões de anos no passado, <strong>todos os seres vivos da Terra</strong> — você, uma bactéria, um cogumelo e uma jabuticabeira — descendem de um único ancestral comum, chamado pelos cientistas de <strong>LUCA</strong> (sigla em inglês para "Último Ancestral Comum Universal"). É por isso que todos os seres vivos usam o mesmo "manual de instruções": o DNA!</p>
+    </div>
+  </section>
+
+  <!-- ===================== 2. NÍVEIS ===================== -->
+  <section id="niveis">
+    <div class="eyebrow">Parte 2</div>
+    <h2>Os níveis de classificação</h2>
+    <p>Com milhões de espécies no planeta, os cientistas precisavam de um jeito de organizar tudo. O cientista sueco <strong>Carlos Lineu</strong> (século XVIII) criou um sistema de "caixas dentro de caixas": cada nível é uma caixa menor e mais específica que a anterior.</p>
+    <p><strong>Clique em cada nível do funil</strong> para ver o que ele significa: 👇</p>
+
+    <div class="funil" id="funil">
+      <button class="nivel n1" data-alvo="p1">DOMÍNIO <small>a caixa mais gigante</small></button>
+      <div class="painel-nivel" id="p1"><strong>Domínio</strong> é o nível mais amplo de todos. Existem só <strong>3 domínios</strong>: <strong>Bacteria</strong> (bactérias), <strong>Archaea</strong> (arqueas, micróbios de ambientes extremos) e <strong>Eukarya</strong> (seres com células que têm núcleo: animais, plantas, fungos e protistas). Você está no domínio Eukarya!</div>
+
+      <button class="nivel n2" data-alvo="p2">REINO <small>grandes grupos de vida</small></button>
+      <div class="painel-nivel" id="p2"><strong>Reino</strong> divide os seres em grandes grupos. No domínio Eukarya, os mais conhecidos são: <strong>Animalia</strong> (animais), <strong>Plantae</strong> (plantas), <strong>Fungi</strong> (fungos, como cogumelos) e <strong>Protista</strong> (como as amebas).</div>
+
+      <button class="nivel n3" data-alvo="p3">FILO <small>o "plano do corpo"</small></button>
+      <div class="painel-nivel" id="p3"><strong>Filo</strong> agrupa seres com o mesmo "plano de construção" do corpo. Exemplo: o filo <strong>Chordata</strong> (cordados) reúne animais com uma estrutura de sustentação nas costas — inclui peixes, sapos, aves e você! Já os insetos ficam no filo <strong>Arthropoda</strong>.</div>
+
+      <button class="nivel n4" data-alvo="p4">CLASSE <small>ex.: mamíferos</small></button>
+      <div class="painel-nivel" id="p4"><strong>Classe</strong> refina ainda mais. Dentro dos cordados temos a classe <strong>Mammalia</strong> (mamíferos: têm pelos e mamam), <strong>Aves</strong>, <strong>Reptilia</strong> (répteis), entre outras.</div>
+
+      <button class="nivel n5" data-alvo="p5">ORDEM <small>ex.: carnívoros</small></button>
+      <div class="painel-nivel" id="p5"><strong>Ordem</strong> agrupa famílias parecidas. Exemplo: a ordem <strong>Carnivora</strong> reúne mamíferos com dentes afiados adaptados para comer carne, como cães, gatos e ursos. A ordem <strong>Primates</strong> inclui macacos e humanos.</div>
+
+      <button class="nivel n6" data-alvo="p6">FAMÍLIA <small>os "sobrenomes" da natureza</small></button>
+      <div class="painel-nivel" id="p6"><strong>Família</strong> reúne gêneros muito próximos — é como o sobrenome de uma família de parentes. Exemplos: <strong>Canidae</strong> (a família dos cães, lobos e raposas), <strong>Felidae</strong> (a família dos gatos, leões e onças).</div>
+
+      <button class="nivel n7" data-alvo="p7">GÊNERO <small>quase lá!</small></button>
+      <div class="painel-nivel" id="p7"><strong>Gênero</strong> é um grupo de espécies muito, muito parecidas. Exemplo: o gênero <strong>Canis</strong> inclui o cachorro, o lobo e o coiote. É a primeira palavra do nome científico.</div>
+
+      <button class="nivel n8" data-alvo="p8">ESPÉCIE <small>a caixa mais específica</small></button>
+      <div class="painel-nivel" id="p8"><strong>Espécie</strong> é o nível mais específico: seres que conseguem se reproduzir entre si gerando filhotes férteis. O nome científico junta gênero + espécie, sempre em itálico: <em>Canis familiaris</em> (cachorro), <em>Homo sapiens</em> (nós!).</div>
+    </div>
+
+    <div class="dica"><strong>🧠 Macete para decorar a ordem:</strong> "<strong>D</strong>omingo <strong>R</strong>eino <strong>F</strong>eliz, <strong>C</strong>omendo <strong>O</strong>vo, <strong>F</strong>arofa, <strong>G</strong>oiaba e <strong>E</strong>mpada" → <strong>D</strong>omínio, <strong>R</strong>eino, <strong>F</strong>ilo, <strong>C</strong>lasse, <strong>O</strong>rdem, <strong>F</strong>amília, <strong>G</strong>ênero, <strong>E</strong>spécie. Invente a sua frase também — funciona ainda melhor!</div>
+  </section>
+
+  <!-- ===================== 3. EXEMPLO ===================== -->
+  <section id="exemplo">
+    <div class="eyebrow">Parte 3</div>
+    <h2>Exemplo completo: classificando o cachorro 🐶</h2>
+    <p>Veja como o cachorro doméstico se encaixa em cada "caixa", da maior para a menor:</p>
+    <table>
+      <tr><th>Nível</th><th>Classificação</th><th>O que significa</th></tr>
+      <tr><td><strong>Domínio</strong></td><td>Eukarya</td><td>células com núcleo</td></tr>
+      <tr><td><strong>Reino</strong></td><td>Animalia</td><td>é um animal</td></tr>
+      <tr><td><strong>Filo</strong></td><td>Chordata</td><td>tem coluna de sustentação</td></tr>
+      <tr><td><strong>Classe</strong></td><td>Mammalia</td><td>é mamífero (tem pelos, mama)</td></tr>
+      <tr><td><strong>Ordem</strong></td><td>Carnivora</td><td>dentes adaptados p/ carne</td></tr>
+      <tr><td><strong>Família</strong></td><td>Canidae</td><td>família dos cães e lobos</td></tr>
+      <tr><td><strong>Gênero</strong></td><td><em>Canis</em></td><td>grupo do cachorro e do lobo</td></tr>
+      <tr><td><strong>Espécie</strong></td><td><em>Canis familiaris</em></td><td>o cachorro doméstico</td></tr>
+    </table>
+    <div class="destaque">🔗 Ligando tudo: o cachorro e o lobo estão no <strong>mesmo gênero</strong> (<em>Canis</em>) porque têm um <strong>ancestral comum recente</strong>. O cachorro e o gato só se encontram lá na <strong>ordem Carnivora</strong> — o ancestral comum deles é bem mais antigo. Classificação e ancestral comum são dois lados da mesma história!</div>
+  </section>
+
+  <!-- ===================== 4. RESUMO ===================== -->
+  <section id="resumo">
+    <div class="eyebrow">Parte 4</div>
+    <h2>Resumo relâmpago ⚡</h2>
+    <div class="card">
+      <p>✅ <strong>Ancestral comum</strong> = espécie antiga que deu origem a duas ou mais espécies atuais.</p>
+      <p>✅ A <strong>árvore filogenética</strong> mostra o parentesco evolutivo entre os seres vivos.</p>
+      <p>✅ Ordem dos níveis (do maior para o menor): <strong>Domínio → Reino → Filo → Classe → Ordem → Família → Gênero → Espécie</strong>.</p>
+      <p>✅ São <strong>3 domínios</strong>: Bacteria, Archaea e Eukarya.</p>
+      <p>✅ Quanto mais níveis dois seres compartilham, mais <strong>parentes</strong> eles são.</p>
+      <p style="margin-bottom:0;">✅ O nome científico = <strong>Gênero + espécie</strong>, em itálico. Ex.: <em>Homo sapiens</em>.</p>
+    </div>
+  </section>
+
+  <!-- ===================== 5. QUIZ ===================== -->
+  <section id="quiz">
+    <div class="eyebrow">Parte 5</div>
+    <h2>Exercícios para a prova 📝</h2>
+    <p>Clique na resposta que você acha certa. O painel corrige na hora!</p>
+
+    <div class="card questao">
+      <h3>Qual é a ordem correta dos níveis, do mais amplo para o mais específico?</h3>
+      <div class="opcoes">
+        <button data-certa="0">Reino → Domínio → Família → Filo</button>
+        <button data-certa="1">Domínio → Reino → Filo → Classe → Ordem → Família → Gênero → Espécie</button>
+        <button data-certa="0">Espécie → Gênero → Família → Domínio</button>
+      </div>
+      <div class="feedback"></div>
+      <div class="explica" hidden>Lembre do macete: <strong>D</strong>omingo <strong>R</strong>eino <strong>F</strong>eliz, <strong>C</strong>omendo <strong>O</strong>vo, <strong>F</strong>arofa, <strong>G</strong>oiaba e <strong>E</strong>mpada!</div>
+    </div>
+
+    <div class="card questao">
+      <h3>O que é um ancestral comum?</h3>
+      <div class="opcoes">
+        <button data-certa="0">Um animal que vive em vários lugares ao mesmo tempo</button>
+        <button data-certa="1">Uma espécie antiga que deu origem a duas ou mais espécies diferentes</button>
+        <button data-certa="0">O animal mais forte de um grupo</button>
+      </div>
+      <div class="feedback"></div>
+      <div class="explica" hidden>É como um "avô evolutivo": a partir dele, os descendentes foram mudando até virarem espécies novas.</div>
+    </div>
+
+    <div class="card questao">
+      <h3>Quantos e quais são os domínios da vida?</h3>
+      <div class="opcoes">
+        <button data-certa="0">2: Plantas e Animais</button>
+        <button data-certa="0">5: Animalia, Plantae, Fungi, Protista e Monera</button>
+        <button data-certa="1">3: Bacteria, Archaea e Eukarya</button>
+      </div>
+      <div class="feedback"></div>
+      <div class="explica" hidden>Cuidado com a pegadinha: Animalia, Plantae etc. são <strong>reinos</strong>, não domínios!</div>
+    </div>
+
+    <div class="card questao">
+      <h3>O lobo e o cachorro pertencem ao mesmo gênero (<em>Canis</em>). O que isso indica?</h3>
+      <div class="opcoes">
+        <button data-certa="1">Que eles têm um ancestral comum recente e são parentes próximos</button>
+        <button data-certa="0">Que eles são exatamente a mesma espécie</button>
+        <button data-certa="0">Que eles vivem no mesmo lugar</button>
+      </div>
+      <div class="feedback"></div>
+      <div class="explica" hidden>Mesmo gênero = parentesco bem próximo. Mas são espécies diferentes: <em>Canis lupus</em> (lobo) e <em>Canis familiaris</em> (cachorro).</div>
+    </div>
+
+    <div class="card questao">
+      <h3>A família Felidae reúne gatos, leões e onças. O que podemos afirmar?</h3>
+      <div class="opcoes">
+        <button data-certa="0">Eles pertencem a reinos diferentes</button>
+        <button data-certa="1">Eles compartilham um ancestral comum e características parecidas</button>
+        <button data-certa="0">Eles são todos da mesma espécie</button>
+      </div>
+      <div class="feedback"></div>
+      <div class="explica" hidden>Estar na mesma <strong>família</strong> significa parentesco evolutivo: todos os felinos descendem de um mesmo ancestral.</div>
+    </div>
+
+    <div class="card questao">
+      <h3>O ser humano pertence ao filo Chordata. Por quê?</h3>
+      <div class="opcoes">
+        <button data-certa="0">Porque tem pelos e produz leite</button>
+        <button data-certa="1">Porque possui uma estrutura de sustentação nas costas (notocorda/coluna)</button>
+        <button data-certa="0">Porque anda sobre duas pernas</button>
+      </div>
+      <div class="feedback"></div>
+      <div class="explica" hidden>Ter pelos e mamar define a <strong>classe</strong> Mammalia. O <strong>filo</strong> Chordata é sobre o plano do corpo com eixo de sustentação.</div>
+    </div>
+
+    <div class="placar" id="placar">Responda as questões acima para ver sua pontuação! 🎯</div>
+
+    <div class="card">
+      <h3>✍️ Desafio discursivo (treine escrever!)</h3>
+      <p>Explique com suas palavras por que dizemos que o cachorro é "mais parente" do lobo do que do gato, usando as palavras <strong>ancestral comum</strong> e <strong>gênero</strong>.</p>
+      <details>
+        <summary>Ver resposta modelo</summary>
+        <p>O cachorro e o lobo pertencem ao mesmo <strong>gênero</strong> (<em>Canis</em>), o que mostra que o <strong>ancestral comum</strong> entre eles é recente — ou seja, eles se separaram na evolução há pouco tempo. Já o gato está em outra família (Felidae), então o ancestral comum entre cachorro e gato é muito mais antigo. Por isso, cachorro e lobo são parentes mais próximos.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===================== 6. REFERÊNCIAS ===================== -->
+  <section id="refs">
+    <div class="eyebrow">Parte 6</div>
+    <h2>Referências para estudar mais 📚</h2>
+    <div class="card">
+      <ul class="refs">
+        <li><strong>Livro didático de Ciências do 8º ano</strong> — capítulo sobre classificação dos seres vivos e evolução (é a fonte mais alinhada com a prova!).</li>
+        <li><strong>Khan Academy (em português)</strong> — vídeos gratuitos sobre "taxonomia" e "árvore filogenética": <em>pt.khanacademy.org</em>.</li>
+        <li><strong>Canal Manual do Mundo (YouTube)</strong> — vídeos divertidos de ciências para revisar de um jeito leve.</li>
+        <li><strong>Brasil Escola / Mundo Educação</strong> — resumos escritos sobre "Categorias taxonômicas" e "Reinos dos seres vivos".</li>
+        <li><strong>Museu de Zoologia da USP (site)</strong> — para ver exemplos reais de classificação de animais brasileiros.</li>
+      </ul>
+    </div>
+    <div class="dica"><strong>📅 Plano para hoje:</strong> 1) Leia as partes 1 e 2 com calma (20 min) → 2) Monte a tabela do cachorro de memória num papel (10 min) → 3) Faça o quiz (10 min) → 4) Refaça só as questões que errou → 5) Antes de dormir, repita o macete em voz alta 3 vezes. Boa prova! 🍀</div>
+  </section>
+
+</main>
+
+<footer>
+  Feito com carinho para a prova de Ciências 🌿 · Revise, descanse e confie em você!
+</footer>
+
+<script>
+  // Funil interativo
+  document.querySelectorAll('.nivel').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var painel = document.getElementById(btn.dataset.alvo);
+      var jaAtivo = painel.classList.contains('ativo');
+      document.querySelectorAll('.painel-nivel').forEach(function(p){p.classList.remove('ativo');});
+      if(!jaAtivo){ painel.classList.add('ativo'); }
+    });
+  });
+
+  // Quiz
+  var acertos = 0, respondidas = 0;
+  var questoes = document.querySelectorAll('#quiz .questao');
+  var total = questoes.length;
+
+  questoes.forEach(function(q){
+    var botoes = q.querySelectorAll('.opcoes button');
+    var fb = q.querySelector('.feedback');
+    var explica = q.querySelector('.explica');
+    botoes.forEach(function(b){
+      b.addEventListener('click', function(){
+        if(q.dataset.feita) return;
+        q.dataset.feita = "1";
+        respondidas++;
+        var certa = b.dataset.certa === "1";
+        if(certa){
+          acertos++;
+          b.classList.add('certa');
+          fb.className = 'feedback mostrar ok';
+          fb.innerHTML = '🎉 <strong>Acertou!</strong> ' + explica.innerHTML;
+        } else {
+          b.classList.add('errada');
+          fb.className = 'feedback mostrar nok';
+          fb.innerHTML = '🤔 <strong>Quase!</strong> ' + explica.innerHTML;
+          botoes.forEach(function(o){ if(o.dataset.certa === "1"){ o.classList.add('certa'); } });
+        }
+        botoes.forEach(function(o){ o.disabled = true; });
+        atualizaPlacar();
+      });
+    });
+  });
+
+  function atualizaPlacar(){
+    var placar = document.getElementById('placar');
+    if(respondidas < total){
+      placar.textContent = 'Pontuação parcial: ' + acertos + ' de ' + respondidas + ' respondidas (' + (total - respondidas) + ' faltando) 🎯';
+    } else {
+      var msg;
+      if(acertos === total){ msg = '🏆 PERFEITO! ' + acertos + '/' + total + ' — Você está prontíssima para a prova!'; }
+      else if(acertos >= total - 2){ msg = '💪 Muito bem! ' + acertos + '/' + total + ' — Revise só as que errou e vai arrasar!'; }
+      else { msg = '📖 Você fez ' + acertos + '/' + total + '. Releia as partes 1 e 2 e tente de novo — recarregue a página para refazer!'; }
+      placar.textContent = msg;
+    }
+  }
+</script>
+
+</body>
+</html>
